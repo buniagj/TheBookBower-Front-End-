@@ -38,6 +38,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-react-refresh", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:0.3.4"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:18.2.0"],\
+            ["react-fontawesome", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:1.7.1"],\
             ["react-paginate", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:8.2.0"],\
             ["react-router-dom", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:6.10.0"],\
             ["react-toastify", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:9.1.2"],\
@@ -3259,6 +3260,29 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
           "linkType": "HARD"\
         }]\
       ]],\
+      ["react-fontawesome", [\
+        ["npm:1.7.1", {\
+          "packageLocation": "./.yarn/cache/react-fontawesome-npm-1.7.1-ec66bf455d-0b4ff66aac.zip/node_modules/react-fontawesome/",\
+          "packageDependencies": [\
+            ["react-fontawesome", "npm:1.7.1"]\
+          ],\
+          "linkType": "SOFT"\
+        }],\
+        ["virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:1.7.1", {\
+          "packageLocation": "./.yarn/__virtual__/react-fontawesome-virtual-a64423f926/0/cache/react-fontawesome-npm-1.7.1-ec66bf455d-0b4ff66aac.zip/node_modules/react-fontawesome/",\
+          "packageDependencies": [\
+            ["react-fontawesome", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:1.7.1"],\
+            ["@types/react", "npm:18.0.38"],\
+            ["prop-types", "npm:15.8.1"],\
+            ["react", "npm:18.2.0"]\
+          ],\
+          "packagePeers": [\
+            "@types/react",\
+            "react"\
+          ],\
+          "linkType": "HARD"\
+        }]\
+      ]],\
       ["react-is", [\
         ["npm:16.13.1", {\
           "packageLocation": "./.yarn/cache/react-is-npm-16.13.1-a9b9382b4f-f7a19ac349.zip/node_modules/react-is/",\
@@ -3788,6 +3812,7 @@ function $$SETUP_STATE(hydrateRuntimeState, basePath) {
             ["eslint-plugin-react-refresh", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:0.3.4"],\
             ["react", "npm:18.2.0"],\
             ["react-dom", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:18.2.0"],\
+            ["react-fontawesome", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:1.7.1"],\
             ["react-paginate", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:8.2.0"],\
             ["react-router-dom", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:6.10.0"],\
             ["react-toastify", "virtual:4234d0dde3a0c77d13bbfd68d256e689d282e2c82b9cc5773114227d7dce1fddb7699bfde73b3da757ce3d7952c23ce5b4dc37c10bf6b1a84f7b95c64b1a66ee#npm:9.1.2"],\

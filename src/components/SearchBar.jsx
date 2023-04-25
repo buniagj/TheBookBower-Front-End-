@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Pagination from './Pagination';
+import Pagination from '../functionality/Pagination';
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [resultsPerPage, setResultsPerPage] = useState(10);
+  const [category, setCategory] = useState('');
+  const [noResultsMessage, setNoResultsMessage] = useState('');
 
   const handleSearchInputChange = (event) => {
     setSearchTerm(event.target.value);
@@ -16,8 +18,12 @@ function SearchBar() {
     event.preventDefault();
 
     try {
-      const response = await axios.get(`/api/books?search=${searchTerm}`); // Replace with your Laravel API endpoint
+      const response = await axios.get(`/api/books?search=${searchTerm}&category=${category}`); // Replace with your Laravel API endpoint
       setSearchResults(response.data);
+      setNoResultsMessage('');
+      if (response.data.length === 0) {
+        setNoResultsMessage('The book you are searching can\'t be found on the list.');
+      }
     } catch (error) {
       console.error(error);
     }
@@ -31,6 +37,9 @@ function SearchBar() {
   const indexOfFirstResult = indexOfLastResult - resultsPerPage;
   const currentResults = searchResults.slice(indexOfFirstResult, indexOfLastResult);
 
+  // Array of letters to be used as categories
+  const categories = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+
   return (
     <div>
       <form onSubmit={handleFormSubmit}>
@@ -42,15 +51,28 @@ function SearchBar() {
         />
         <button type="submit">Search</button>
       </form>
-      <ul>
-        {currentResults.map((result) => (
-          <li key={result.id}>
-            <h3>{result.title}</h3>
-            <p>Author: {result.author}</p>
-            <p>Year: {result.year}</p>
-          </li>
+      <div>
+        {categories.map((letter) => (
+          <button key={letter} onClick={() => setCategory(letter)}>
+            {letter}
+          </button>
         ))}
-      </ul>
+      </div>
+      {noResultsMessage !== '' && <p>{noResultsMessage}</p>}
+      {currentResults.length > 0 &&
+        <ul>
+          {currentResults.map((result) => (
+            <li key={result.id}>
+              <h3>{result.title}</h3>
+              <p>Author: {result.author}</p>
+              <p>Year: {result.year}</p>
+            </li>
+          ))}
+        </ul>
+      }
+      {currentResults.length === 0 && noResultsMessage === '' &&
+        <p>Start typing to search for books.</p>
+      }
       <Pagination
         totalResults={searchResults.length}
         resultsPerPage={resultsPerPage}

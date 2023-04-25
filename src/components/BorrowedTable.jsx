@@ -1,107 +1,149 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import Pagination from './Pagination';
+import React, { useState } from 'react';
+import Sort from '../functionality/Sort';
+import Filter from '../functionality/Filter';
+import Search from '../functionality/Search';
+import AddBook from '../functionality/AddBook';
+import DeleteBook from '../functionality/DeleteBook';
+import EditBook from '../functionality/EditBook';
+import ChangeStatus from '../functionality/ChangeStatus';
+import ExportToExcel from './ExportToExcel';
+import Pagination from '../functionality/Pagination';
 
-function BorrowedTable() {
-  const [borrowedBooks, setBorrowedBooks] = useState([]);
+export default function BorrowedTable({ borrowedBooks, onDelete, onEdit, onChangeStatus, onAdd, isAdmin }) {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [filterStatus, setFilterStatus] = useState('');
+  const [sortType, setSortType] = useState('');
+  const [sortOrder, setSortOrder] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [resultsPerPage, setResultsPerPage] = useState(5);
-  const [sortDirection, setSortDirection] = useState('asc');
-  const [sortField, setSortField] = useState('title');
-  const [searchQuery, setSearchQuery] = useState('');
+  const [booksPerPage] = useState(10);
 
-  useEffect(() => {
-    async function fetchBorrowedBooks() {
-      try {
-        const response = await axios.get('/api/borrowed-books'); // Replace with your Laravel API endpoint
-        setBorrowedBooks(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-
-    fetchBorrowedBooks();
-  }, []);
-
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const handleResultsPerPageChange = (newResultsPerPage) => {
-    setCurrentPage(1);
-    setResultsPerPage(newResultsPerPage);
-  };
-
-  const handleSortChange = (field) => {
-    if (sortField === field) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+  function handleSort(type) {
+    if (type === sortType) {
+      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     } else {
-      setSortField(field);
-      setSortDirection('asc');
+      setSortType(type);
+      setSortOrder('asc');
     }
-  };
+  }
 
-  const sortedBorrowedBooks = borrowedBooks
-    .slice()
-    .sort((a, b) => {
-      let result = 0;
-      if (a[sortField] > b[sortField]) {
-        result = 1;
-      } else if (a[sortField] < b[sortField]) {
-        result = -1;
-      }
-      return sortDirection === 'asc' ? result : -result;
-    });
+  function handleDelete(book) {
+    onDelete(book);
+  }
 
-  const filteredBorrowedBooks = sortedBorrowedBooks.filter((book) =>
-    book.author.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  function handleEdit(book) {
+    onEdit(book);
+  }
 
-  const indexOfLastResult = currentPage * resultsPerPage;
-  const indexOfFirstResult = indexOfLastResult - resultsPerPage;
-  const currentBorrowedBooks = filteredBorrowedBooks.slice(
-    indexOfFirstResult,
-    indexOfLastResult
-  );
+  function handleChangeStatus(book) {
+    onChangeStatus(book);
+  }
 
-  const handleSearch = (event) => {
-    setSearchQuery(event.target.value);
-    setCurrentPage(1);
-  };
+  function handleAdd(book) {
+    onAdd(book);
+  }
+
+  const filteredBooks = borrowedBooks.filter((book) => {
+    if (filterStatus === '') {
+      return true;
+    }
+    return book.status === filterStatus;
+  });
+
+  const sortedBooks = filteredBooks.sort((book1, book2) => {
+    if (sortType === '') {
+      return 0;
+    }
+    let a, b;
+    if (sortType === 'title') {
+      a = book1.title.toLowerCase();
+      b = book2.title.toLowerCase();
+    } else if (sortType === 'author') {
+      a = book1.author.toLowerCase();
+      b = book2.author.toLowerCase();
+    } else if (sortType === 'status') {
+      a = book1.status.toLowerCase();
+      b = book2.status.toLowerCase();
+    }
+    if (a > b) {
+      return sortOrder === 'asc' ? 1 : -1;
+    } else if (a < b) {
+      return sortOrder === 'asc' ? -1 : 1;
+    } else {
+      return 0;
+    }
+  });
+
+  const isAdminView = isAdmin ? true : false;
+
+  const indexOfLastBook = currentPage * booksPerPage;
+  const indexOfFirstBook = indexOfLastBook - booksPerPage;
+  const currentBooks = sortedBooks.slice(indexOfFirstBook, indexOfLastBook);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
   return (
     <div>
-      <h2>Borrowed Books</h2>
-      <input type="text" value={searchQuery} onChange={handleSearch} placeholder="Search by author or title" />
+      {isAdminView && <AddBook onSubmit={handleAdd} />}
+      <div>
+        <Search value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
+        <Filter value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} />
+        <Sort type={sortType} order={sortOrder} onSort={handleSort} />
+      </div>
       <table>
         <thead>
           <tr>
-            <th onClick={() => handleSortChange('title')}>Title</th>
-            <th onClick={() => handleSortChange('author')}>Author</th>
-            <th onClick={() => handleSortChange('borrowed_date')}>Borrowed Date</th>
-            <th onClick={() => handleSortChange('due_date')}>Due Date</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Status</th>
+            {isAdminView && <th>Edit</th>}
+            {isAdminView && <th>Delete</th>}
+            {isAdminView && <th>Change Status</th>}
           </tr>
-        </thead>
-        <tbody>
-          {currentBorrowedBooks.map((book) => (
-            <tr key={book.id}>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.borrowed_date}</td>
-              <td>{book.due_date}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination
-        totalResults={borrowedBooks.length}
-        resultsPerPage={resultsPerPage} 
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        onResultsPerPageChange={handleResultsPerPageChange}
-      />
-    </div>
-  );
-}
+              </thead>
+      <tbody>
+  {currentBooks.filter((book) => {
+    if (searchTerm === '') {
+      return true;
+    }
+    return (
+      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      book.author.toLowerCase().includes(searchTerm.toLowerCase())
+    );
+  }).map((book) => (
+    <tr key={book.id}>
+      <td>{book.title}</td>
+      <td>{book.author}</td>
+      <td>{book.status}</td>
+      {isAdminView && (
+        <td>
+          <EditBook book={book} onEdit={handleEdit} />
+        </td>
+      )}
+      {isAdminView && (
+        <td>
+          <DeleteBook book={book} onDelete={handleDelete} />
+        </td>
+      )}
+      {isAdminView && (
+        <td>
+          <ChangeStatus book={book} onChangeStatus={handleChangeStatus} />
+        </td>
+      )}
+    </tr>
+  ))}
+</tbody>
+{sortedBooks.length > booksPerPage && (
+<Pagination
+ booksPerPage={booksPerPage}
+ totalBooks={sortedBooks.length}
+ paginate={paginate}
+ currentPage={currentPage}
+/>
+)}
 
-export default BorrowedTable;
+{isAdminView && <ExportToExcel books={sortedBooks} />}
+
+</table>
+</div>
+);
+}

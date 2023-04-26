@@ -1,2 +1,18 @@
 /* Just for quick fix, I used react bootstrap.
 Feel free to add your design. */
+
+.navbar-toggler {
+    border: 0px !important;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler-icon:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url(../assets/burger.png) !important;
+    width: 3rem !important;
+    height: 3rem !important;
+}

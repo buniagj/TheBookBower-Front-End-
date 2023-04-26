@@ -116,17 +116,17 @@ export default function UserList() {
       <FilterUsers searchTerm={searchTerm} onSearch={handleSearch} />
       <button onClick={addUser}>Add User</button>
       <ExportToExcel users={users} />
+      {renderUserTable()}
+      <Pagination
+     usersPerPage={usersPerPage}
+     totalUsers={users.length}
+     currentPage={currentPage}
+     onPageChange={handlePagination}
+      />
       {showAddUserForm && <AddUsers onClose={closeAddUserForm} />}
       {showEditUserForm && <EditUsers user={currentUser} onClose={closeEditUserForm} />}
       {editing && <EditUsers user={currentUser} onClose={closeEditUserForm} />}
       {showDeleteUserForm && <DeleteUsers user={currentUser} onClose={closeDeleteUserForm} />}
-      {renderUserTable()}
-      <Pagination
-        totalUsers={users.length}
-        usersPerPage={usersPerPage}
-        currentPage={currentPage}
-        onPageChange={handlePagination}
-      />
     </div>
   );
 }

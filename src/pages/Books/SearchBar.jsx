@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Pagination from '../Dashboard/AdminDashboard/Pagination';
+import './SearchBar.css';
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');
@@ -41,7 +42,7 @@ function SearchBar() {
   const categories = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
 
   return (
-    <div>
+    <div className="search-bar-container">
       <form onSubmit={handleFormSubmit}>
         <input
           type="text"
@@ -53,12 +54,16 @@ function SearchBar() {
       </form>
       <div>
         {categories.map((letter) => (
-          <button key={letter} onClick={() => setCategory(letter)}>
+          <button
+            key={letter}
+            onClick={() => setCategory(letter)}
+            className="category-button"
+          >
             {letter}
           </button>
         ))}
       </div>
-      {noResultsMessage !== '' && <p>{noResultsMessage}</p>}
+      {noResultsMessage !== '' && <p className="no-results-message">{noResultsMessage}</p>}
       {currentResults.length > 0 &&
         <ul>
           {currentResults.map((result) => (
@@ -70,9 +75,10 @@ function SearchBar() {
           ))}
         </ul>
       }
-      {currentResults.length === 0 && noResultsMessage === '' &&
-        <p>Start typing to search for books.</p>
-      }
+      {searchTerm !== '' && currentResults.length === 0 ? (
+        <p>No results found.</p>
+      ) : null}
+
       <Pagination
         totalResults={searchResults.length}
         resultsPerPage={resultsPerPage}

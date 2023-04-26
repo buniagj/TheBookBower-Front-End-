@@ -20,7 +20,7 @@ function Pagination() {
 
   return (
     <div>
-      <h1>Pagination Example</h1>
+      <h1>List of Books</h1>
       <ul>
         {currentPageItems.map(item => (
           <li key={item}>{item}</li>

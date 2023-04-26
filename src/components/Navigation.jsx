@@ -16,7 +16,7 @@ function Navigation() {
   }
 
   return (
-    <Navbar bg="light" expand="lg">
+    <Navbar bg="light" expand="lg"  fixed="top">
       <Container>
         <Navbar.Brand as={Link} to="/"><img src={Logo}alt="the-book-bower.png" /></Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />

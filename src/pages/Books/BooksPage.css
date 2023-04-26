@@ -1,0 +1,21 @@
+.pagination li {
+  display: inline-block;
+  margin-right: 5px;
+}
+
+.pagination li a {
+  padding: 5px 10px;
+  border: 1px solid #ccc;
+  text-decoration: none;
+}
+
+.pagination li a:hover {
+  background-color: #f5f5f5;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  height: fit-content;
+}

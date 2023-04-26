@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
+import axios from 'axios';
 
-function Search({ value, onChange }) {
-  const [query, setQuery] = useState(value);
+function Search({ type, onChange }) {
+  const [query, setQuery] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onChange(query);
+    try {
+      const response = await axios.get(`/api/${type}?q=${query}`);
+      onChange(response.data);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
@@ -14,8 +20,8 @@ function Search({ value, onChange }) {
       <input
         className="form-control mr-sm-2"
         type="search"
-        placeholder="Search"
-        aria-label="Search"
+        placeholder={`Search ${type}`}
+        aria-label={`Search ${type}`}
         value={query}
         onChange={(e) => setQuery(e.target.value)}
       />
@@ -27,7 +33,7 @@ function Search({ value, onChange }) {
 }
 
 Search.propTypes = {
-  value: PropTypes.string.isRequired,
+  type: PropTypes.oneOf(['books', 'users']).isRequired,
   onChange: PropTypes.func.isRequired,
 };
 

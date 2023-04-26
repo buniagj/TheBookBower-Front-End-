@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Dropdown, DropdownButton } from 'react-bootstrap';
-import ExportToExcel from './ExportToExcel';
+import ExportToExcel from './AdminDashboard/ExportToExcel';
 
 function ActionButtons({ borrowedBooks, handleRefresh }) {
   const [showExportDropdown, setShowExportDropdown] = useState(false);

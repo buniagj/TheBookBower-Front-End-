@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import BorrowedBooksTable from '../components/BorrowedTable';
-import ReturnedBooksTable from '../components/ReturnedTable';
-import Pagination from '../functionality/Pagination';
-import BookTable from '../components/BookTable';
-import Filter from '../functionality/Filter';
-import ExportExcelButton from '../components/ExportToExcelButton';
-import ExportToExcel from '../components/ExportToExcel';
+import BorrowedBooksTable from '../BorrowedTable';
+import ReturnedBooksTable from '../ReturnedTable';
+import Pagination from '../AdminDashboard/Pagination';
+import BookTable from '../BookTable';
+import Filter from '../AdminDashboard/FilterBook';
+import ExportExcelButton from '../AdminDashboard/ExportToExcelButton';
+import ExportToExcel from '../AdminDashboard/ExportToExcel';
 
 
 function AdminDashboard() {

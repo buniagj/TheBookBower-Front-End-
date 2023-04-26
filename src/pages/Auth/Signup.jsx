@@ -5,6 +5,11 @@ function Signup() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [passwordConfirmation, setPasswordConfirmation] = useState('');
+  const [role, setRole] = useState('student'); // Default role is "student"
+  const [gradeLevel, setGradeLevel] = useState('');
+  const [section, setSection] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
+  const [address, setAddress] = useState('');
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -14,7 +19,17 @@ function Signup() {
         headers: {
           'Content-Type': 'application/json'
         },
-        body: JSON.stringify({ name, email, password, password_confirmation: passwordConfirmation })
+        body: JSON.stringify({ 
+          name, 
+          email, 
+          password, 
+          password_confirmation: passwordConfirmation,
+          role,
+          grade_level: gradeLevel,
+          section,
+          phone_number: phoneNumber,
+          address,
+        })
       });
       const data = await response.json();
       // Assuming your Laravel API sends a verification email
@@ -42,6 +57,34 @@ function Signup() {
       <label>
         Confirm Password:
         <input type="password" value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value)} required />
+      </label>
+      <label>
+        Role:
+        <select value={role} onChange={e => setRole(e.target.value)}>
+          <option value="student">Student</option>
+          <option value="teacher">Teacher</option>
+          <option value="admin">Admin</option>
+        </select>
+      </label>
+      {role === 'student' && (
+        <>
+          <label>
+            Grade Level:
+            <input type="text" value={gradeLevel} onChange={e => setGradeLevel(e.target.value)} required />
+          </label>
+          <label>
+            Section:
+            <input type="text" value={section} onChange={e => setSection(e.target.value)} required />
+          </label>
+        </>
+      )}
+      <label>
+        Phone Number:
+        <input type="text" value={phoneNumber} onChange={e => setPhoneNumber(e.target.value)} required />
+      </label>
+      <label>
+        Address:
+        <input type="text" value={address} onChange={e => setAddress(e.target.value)} required />
       </label>
       <button type="submit">Sign Up</button>
     </form>

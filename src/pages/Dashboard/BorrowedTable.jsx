@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import Sort from '../functionality/Sort';
-import Filter from '../functionality/Filter';
-import Search from '../functionality/Search';
-import AddBook from '../functionality/AddBook';
-import DeleteBook from '../functionality/DeleteBook';
-import EditBook from '../functionality/EditBook';
-import ChangeStatus from '../functionality/ChangeStatus';
-import ExportToExcel from './ExportToExcel';
-import Pagination from '../functionality/Pagination';
+import Sort from './AdminDashboard/Sort';
+import Filter from './AdminDashboard/FilterBook';
+import Search from './AdminDashboard/SearchBook';
+import AddBook from './AdminDashboard/AddBook';
+import DeleteBook from './AdminDashboard/DeleteBook';
+import EditBook from './AdminDashboard/EditBook';
+import ChangeStatus from './AdminDashboard/ChangeStatus';
+import ExportToExcel from './AdminDashboard/ExportToExcel';
+import Pagination from './AdminDashboard/Pagination';
 
 export default function BorrowedTable({ borrowedBooks, onDelete, onEdit, onChangeStatus, onAdd, isAdmin }) {
   const [searchTerm, setSearchTerm] = useState('');

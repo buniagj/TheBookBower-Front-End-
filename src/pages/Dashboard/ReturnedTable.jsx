@@ -1,18 +1,21 @@
 import React, { useState } from "react";
-import Sort from "../functionality/Sort";
-import Filter from "../functionality/Filter";
-import Search from "../functionality/Search";
-import AddBook from "../functionality/AddBook";
-import DeleteBook from "../functionality/DeleteBook";
-import EditBook from "../functionality/EditBook";
-import ChangeStatus from "../functionality/ChangeStatus";
-import ExportToExcel from "./ExportToExcel";
+import Sort from './AdminDashboard/Sort';
+import Filter from './AdminDashboard/FilterBook';
+import Search from './AdminDashboard/SearchBook';
+import AddBook from './AdminDashboard/AddBook';
+import DeleteBook from './AdminDashboard/DeleteBook';
+import EditBook from './AdminDashboard/EditBook';
+import ChangeStatus from './AdminDashboard/ChangeStatus';
+import ExportToExcel from './AdminDashboard/ExportToExcel';
+import Pagination from './AdminDashboard/Pagination';
 
 const ReturnedTable = ({ data, isAdmin }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [sortColumn, setSortColumn] = useState(null);
   const [sortDirection, setSortDirection] = useState(null);
   const [filter, setFilter] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(5);
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
@@ -69,21 +72,51 @@ const ReturnedTable = ({ data, isAdmin }) => {
     }
   });
 
+  // Logic for displaying current items
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
+
+  // Logic for displaying page numbers
+  const pageNumbers = [];
+  for (let i = 1; i <= Math.ceil(sortedData.length / itemsPerPage); i++) {
+    pageNumbers.push(i);
+  }
+
+  const handleClick = (event) => {
+    setCurrentPage(Number(event.target.id));
+  };
+
+  const renderPageNumbers = pageNumbers.map((number) => {
+    return (
+      <li
+        key={number}
+        id={number}
+        onClick={handleClick}
+        className={currentPage === number ? "active" : ""}
+      >
+        {number}
+      </li>
+    );
+  });
+
   return (
-    <>
-      {isAdmin && (
-        <>
-          <AddBook />
-          <DeleteBook />
-          <EditBook />
-          <ChangeStatus />
-          <ExportToExcel />
-        </>
-      )}
-      <Search searchTerm={searchTerm} handleSearch={handleSearch} />
-      <Filter filter={filter} handleFilter={handleFilter} />
-      <Sort handleSort={handleSort} />
-      <Table striped bordered hover>
+    <div className="returned-table">
+      <div className="returned-table__header">
+        {isAdmin && (
+          <>
+            <AddBook />
+            <DeleteBook />
+            <EditBook />
+            <ChangeStatus />
+            <ExportToExcel />
+          </>
+        )}
+        <Search handleSearch={handleSearch} />
+        <Filter handleFilter={handleFilter} />
+        <Sort handleSort={handleSort} />
+      </div>
+      <table>
         <thead>
           <tr>
             <th onClick={() => handleSort("title")}>Title</th>
@@ -94,7 +127,7 @@ const ReturnedTable = ({ data, isAdmin }) => {
           </tr>
         </thead>
         <tbody>
-          {sortedData.map((item) => (
+          {currentItems.map((item) => (
             <tr key={item.id}>
               <td>{item.title}</td>
               <td>{item.author}</td>
@@ -104,10 +137,15 @@ const ReturnedTable = ({ data, isAdmin }) => {
             </tr>
           ))}
         </tbody>
-      </Table>
-    </>
+      </table>
+      <div className="returned-table__pagination">
+        <Pagination
+          pageNumbers={renderPageNumbers}
+          handleClick={handleClick}
+        />
+      </div>
+    </div>
   );
 };
 
 export default ReturnedTable;
-

@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import SearchBar from '../components/SearchBar';
-import BookListings from '../components/BookListings';
-import BookDetails from '../components/BookDetails';
+import SearchBar from './SearchBar';
+import BookListings from './BookListings';
+import BookDetails from './BookDetails';
 
 function BooksPage() {
   const { id } = useParams();

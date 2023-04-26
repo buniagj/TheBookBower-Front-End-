@@ -1,10 +1,12 @@
 import React from 'react';
-import HeroSection from '../components/HeroSection';
+import HeroSection from './HeroSection';
+import FeaturedBooks from './FeaturedBooks';
 
 function HomePage() {
   return (
     <>
       <HeroSection />
+      <FeaturedBooks />
     </>
   );
 }

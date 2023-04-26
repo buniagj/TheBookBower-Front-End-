@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import Pagination from '../functionality/Pagination';
+import Pagination from '../Dashboard/AdminDashboard/Pagination';
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');

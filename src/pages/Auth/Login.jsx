@@ -20,11 +20,16 @@ function Login() {
       // Assuming your Laravel API returns a token and role upon successful login
       localStorage.setItem('token', data.token); 
       localStorage.setItem('role', data.role); // Store the role in local storage
+      localStorage.setItem('grade_level', data.grade_level); // Store the grade level in local storage
+      localStorage.setItem('section', data.section); // Store the section in local storage
+      
       // Redirect the user to the appropriate dashboard based on their role
       if (data.role === 'admin') {
         navigate('/admin');
+      } else if (data.role === 'teacher') {
+        navigate('/teacher');
       } else {
-        navigate('/user');
+        navigate('/student');
       }
     } catch (error) {
       console.error(error);

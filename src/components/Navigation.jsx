@@ -45,6 +45,7 @@ function Navigation() {
           </Nav>
         </Navbar.Collapse>
       </Container>
+      {isLoggedIn && <UserDashboardNavbar />}
     </Navbar>
   );
 }

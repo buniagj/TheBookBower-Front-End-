@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Sort from './AdminDashboard/Sort';
 import Filter from './AdminDashboard/FilterBook';
-import Search from './AdminDashboard/SearchBook';
+import Search from './AdminDashboard/Search';
 import AddBook from './AdminDashboard/AddBook';
 import DeleteBook from './AdminDashboard/DeleteBook';
 import EditBook from './AdminDashboard/EditBook';

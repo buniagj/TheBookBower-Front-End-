@@ -2,7 +2,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80vh;
 }
 
 .form-container {
@@ -41,7 +41,7 @@
 }
 
 .form-container button {
-  background-color: #4CAF50;
+  background-color: #5b4577;
   color: #fff;
   padding: 10px;
   border: none;
@@ -51,5 +51,5 @@
 }
 
 .form-container button:hover {
-  background-color: #3e8e41;
+  background-color: #5b4577;
 }

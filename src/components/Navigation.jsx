@@ -1,10 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Nav, Navbar } from 'react-bootstrap';
+import UserDashboardNavbar from '../pages/Dashboard/UserDashboard/UserDashboardNavbar';
 
 function Navigation() {
   const isLoggedIn = !!localStorage.getItem('token');
   const isAdmin = localStorage.getItem('role') === 'admin';
+  const [editMode, setEditMode] = useState(false);
 
   function handleLogout() {
     localStorage.removeItem('token');
@@ -31,6 +33,25 @@ function Navigation() {
           {isLoggedIn ? (
             <>
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              {isAdmin && (
+                <Nav.Link as={Link} to="/createbook">Create Book</Nav.Link>
+              )}
+              {isLoggedIn && isAdmin ? (
+                <Nav.Link as={Link} to="/admin">Admin Dashboard</Nav.Link>
+              ) : (
+                <Nav.Link as={Link} to="/user">User Dashboard</Nav.Link>
+              )}
+              {isLoggedIn && isAdmin ? (
+                <Nav.Link as={Link} to="/manageusers">Manage Users</Nav.Link>
+              ) : (
+                <></>
+              )}
+              {isLoggedIn && (
+                <UserDashboardNavbar
+                  editMode={editMode}
+                  setEditMode={setEditMode}
+                />
+              )}
             </>
           ) : (
             <>

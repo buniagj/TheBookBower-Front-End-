@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import Pagination from '../functionality/Pagination';
+import Pagination from '../Dashboard/AdminDashboard/Pagination';
 import axios from 'axios';
 
 function BookList() {

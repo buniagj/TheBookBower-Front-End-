@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BorrowedBooksTable from './BorrowedTable';
 import ReturnedBooksTable from './ReturnedTable';
-import Pagination from '../functionality/Pagination';
+import Pagination from './AdminDashboard/Pagination';
 
 function BookTable() {
   const [borrowedBooks, setBorrowedBooks] = useState([]);

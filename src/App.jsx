@@ -1,19 +1,19 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import HomePage from './pages/HomePage';
-import  SearchBar  from './components/SearchBar';
-import BooksPage from './pages/BooksPage';
-import BookDetails from './components/BookDetails';
-import  BorrowForm  from './components/BorrowForm';
-import  ReturnForm  from './components/ReturnForm';
-import  About  from './pages/About';
-import  Login  from './pages/Login';
-import  Signup  from './pages/Signup';
-import  User  from './pages/User';
-import  Admin  from './pages/Admin';
+import HomePage from './pages/Home/HomePage';
+import SearchBar from './pages/Books/SearchBar';
+import BooksPage from './pages/Books/BooksPage';
+// import BookDetails from './pages/Books/BookDetails';
+import BorrowForm from './pages/Dashboard/UserDashboard/BorrowForm';
+import ReturnForm from './pages/Dashboard/UserDashboard/ReturnForm';
+import About from './pages/About/About';
+import Login from './pages/Auth/Login';
+import Signup from './pages/Auth/Signup';
+import User from './pages/Dashboard/UserDashboard/User';
+import Admin from './pages/Dashboard/AdminDashboard/Admin';
 import  Footer  from './components/Footer';
 import  Navigation  from './components/Navigation';
-import  ErrorBoundary  from './functionality/ErrorBoundary';
+import  ErrorBoundary  from './pages/Dashboard/AdminDashboard/ErrorBoundary';
 
 
 function App() {
@@ -23,7 +23,7 @@ function App() {
       <Routes>
         <Route exact path="/" element={<ErrorBoundary><HomePage /></ErrorBoundary>} />
         <Route exact path="/searchbar" element={<ErrorBoundary><SearchBar /></ErrorBoundary>} />
-        <Route exact path="/books/:id" element={<ErrorBoundary><BookDetails /></ErrorBoundary>} />
+        {/* <Route exact path="/books/:id" element={<ErrorBoundary><BookDetails /></ErrorBoundary>} /> */}
         <Route exact path="/borrowform" element={<ErrorBoundary><BorrowForm /></ErrorBoundary>} />
         <Route exact path="/returnform" element={<ErrorBoundary><ReturnForm /></ErrorBoundary>} />
         <Route exact path="/about" element={<ErrorBoundary><About /></ErrorBoundary>} />

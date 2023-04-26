@@ -1,21 +1,24 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import Home from './pages/HomePage';
-import BooksPage from './pages/BooksPage';
-// import BookDetails from './components/BookDetails';
-import Borrow from './components/BorrowForm';
-import Return from './components/ReturnForm';
-import SearchBar from './components/SearchBar';
+import  Navigation  from './components/Navigation';
+import Home from './pages/Home/HomePage';
+import BooksPage from './pages/Books/BooksPage';
+// import BookDetails from './pages/Books/BookDetails';
+import Borrow from './pages/Dashboard/UsersDashboard/BorrowForm';
+import Return from './pages/Dashboard/UsersDashboard/ReturnForm';
+import SearchBar from './pages/Books/SearchBar';
 import About from './pages/About';
-import Contact from './pages/ContactPage';
-import Login from './pages/Login';
-import Signup from './pages/Signup';
-import User from './pages/User';
-import Admin from './pages/Admin';
+import Contact from './pages/Contact/ContactPage';
+import Login from './pages/Auth/Login';
+import Signup from './pages/Auth/Signup';
+import User from './pages/Dashboard/UserDashboard/User';
+import Admin from './pages/Dashboard/AdminDashboard/Admin';
+import  Footer  from './components/Footer';
 
 function AppRoutes() {
   return (
     <Router>
+      <Navigation />
       <Routes>
         <Route exact path="/" element={<Home />} />
         <Route exact path="/bookspage" element={<BooksPage />} />
@@ -30,6 +33,7 @@ function AppRoutes() {
         <Route exact path="/user" element={<User />} />
         <Route exact path="/admin" element={<Admin />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }

@@ -5,6 +5,10 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
+* {
+  font-family: 'Poppins', sans-serif;
+}
+
 .breadcrumb {
   background-image: url(../../assets/breadcrumb-banner.png);
   padding: 80px 0 !important;
@@ -18,7 +22,7 @@
 
 .category-page-title {
   color: #fff;
-  font-size: 50px;
+  font-size: 30px;
   font-family: 'Pacifico', cursive;
   text-align: center;
   background-color: transparent;

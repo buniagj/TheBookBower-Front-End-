@@ -46,17 +46,43 @@ function Login() {
               <div className="category-page-title">Login To Your Account</div>
             </Container>
       </Breadcrumb>
-      <form className="center-form" onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-        </label>
-        <label>
-          Password:
-          <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-        </label>
-        <button type="submit">Login</button>
-      </form>
+      <section className='section'>
+        <Container>
+          <div className="row justify-content-center">
+            <div className="col-md-12 col-lg-10">
+              <div className="wrap d-md-flex">
+                <div className="img"></div>
+                <div className="login-wrap p-4 p-md-5">
+                  <div className="d-flex">
+                    <div className="w-100">
+                      <h3 className="mb-4">Log in to your account</h3>
+                    </div>
+                  </div>
+                  <form className="sign-in"onSubmit={handleSubmit}>
+                    <div className="form-group mb-4">
+                      <label className="label">Email</label>
+                      <input type="email" className="form-control" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required></input>
+                    </div>
+                    <div className="form-group mb-4">
+                      <label className="label">Password</label>
+                      <input type="password" className="form-control" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required></input>
+                    </div>
+                    <div className="form-group mb-4">
+                      <button type="submit" className="form-control btn btn-primary rounded submit px-3">Log In</button>
+                    </div>
+                    <div className="form-group d-md-flex">
+                      <div className="w-50 text-md-right">
+                        <a href="#">Forgot Password</a>
+                      </div>
+                    </div>
+                  </form>
+                  <p className="text-center">Not yet registered? <a data-toggle="tab" href="/signup">Sign Up</a></p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
     </div>
   );
 }

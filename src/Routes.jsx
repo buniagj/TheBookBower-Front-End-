@@ -13,7 +13,8 @@ import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
 import User from './pages/Dashboard/UserDashboard/User';
 import Admin from './pages/Dashboard/AdminDashboard/Admin';
-import  Footer  from './components/Footer';
+import Footer from './components/Footer';
+import ForgotPassword from './pages/Auth/ForgotPassword';
 
 function AppRoutes() {
   return (
@@ -32,6 +33,7 @@ function AppRoutes() {
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/user" element={<User />} />
         <Route exact path="/admin" element={<Admin />} />
+        <Route exact path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <Footer />
     </Router>

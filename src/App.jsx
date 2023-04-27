@@ -13,7 +13,8 @@ import User from './pages/Dashboard/UserDashboard/User';
 import Admin from './pages/Dashboard/AdminDashboard/Admin';
 import  Footer  from './components/Footer';
 import  Navigation  from './components/Navigation';
-import  ErrorBoundary  from './pages/Dashboard/AdminDashboard/ErrorBoundary';
+import ErrorBoundary from './pages/Dashboard/AdminDashboard/ErrorBoundary';
+import ForgotPassword from './pages/Auth/ForgotPassword';
 
 
 function App() {
@@ -32,6 +33,7 @@ function App() {
         <Route exact path="/bookspage" element={<ErrorBoundary><BooksPage /></ErrorBoundary>} />
         <Route exact path="/user" element={<ErrorBoundary><User /></ErrorBoundary>} />
         <Route exact path="/admin" element={<ErrorBoundary><Admin /></ErrorBoundary>} />
+        <Route exact path="/forgot-password" element={<ForgotPassword />} />
       </Routes>
       <Footer />
     </Router>

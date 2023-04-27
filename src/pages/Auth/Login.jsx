@@ -40,20 +40,6 @@ function Login() {
   }
 
   return (
-<<<<<<< HEAD
-    <form className="center-form" onSubmit={handleSubmit}>
-      <label>
-        Email:
-        <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
-      </label>
-      <label>
-        Password:
-        <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
-      </label>
-      <a href="./ForgotPassword">Forgot Password</a> {/* Added the "Forgot Password" link here */}
-      <button type="submit">Login</button>
-    </form>
-=======
     <div className="login">
       <Breadcrumb>
             <Container>
@@ -98,7 +84,6 @@ function Login() {
         </Container>
       </section>
     </div>
->>>>>>> daef4bdf1fc867e39b964fd1bec5c55d33ec75dc
   );
 }
 

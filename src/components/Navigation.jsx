@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import UserDashboardNavbar from '../pages/Dashboard/UserDashboard/UserDashboardNavbar';
 import Logo from '../assets/the-book-bower-logo.png';
+import './Navigation.css';
 
 function Navigation() {
   const isLoggedIn = !!localStorage.getItem('token');

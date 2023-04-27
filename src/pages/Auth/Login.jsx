@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import Breadcrumb from 'react-bootstrap/Breadcrumb';
+import Container from 'react-bootstrap/Container';
 import './Login.css';
 
 function Login() {
@@ -38,6 +40,7 @@ function Login() {
   }
 
   return (
+<<<<<<< HEAD
     <form className="center-form" onSubmit={handleSubmit}>
       <label>
         Email:
@@ -50,6 +53,26 @@ function Login() {
       <a href="./ForgotPassword">Forgot Password</a> {/* Added the "Forgot Password" link here */}
       <button type="submit">Login</button>
     </form>
+=======
+    <div className="login">
+      <Breadcrumb>
+            <Container>
+              <div className="category-page-title">Login To Your Account</div>
+            </Container>
+      </Breadcrumb>
+      <form className="center-form" onSubmit={handleSubmit}>
+        <label>
+          Email:
+          <input type="email" value={email} onChange={e => setEmail(e.target.value)} required />
+        </label>
+        <label>
+          Password:
+          <input type="password" value={password} onChange={e => setPassword(e.target.value)} required />
+        </label>
+        <button type="submit">Login</button>
+      </form>
+    </div>
+>>>>>>> daef4bdf1fc867e39b964fd1bec5c55d33ec75dc
   );
 }
 

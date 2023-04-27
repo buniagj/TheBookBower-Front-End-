@@ -1,2 +1,26 @@
 /* Just for quick fix, I used react bootstrap.
 Feel free to add your design. */
+
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+.navbar-toggler {
+    border: 0px !important;
+}
+
+.navbar-toggler:focus,
+.navbar-toggler-icon:focus {
+    outline: none !important;
+    box-shadow: none !important;
+}
+
+.navbar-toggler-icon {
+    background-image: url(../assets/burger.png) !important;
+    width: 3rem !important;
+    height: 3rem !important;
+}
+
+.nav-link {
+  color: #5b4577 !important;
+  font-family: 'Poppins', sans-serif;
+  padding-right: 50px !important;
+}

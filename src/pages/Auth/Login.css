@@ -33,14 +33,19 @@
 }
 
 .img, .login-wrap {
-    width: 100%; }
-    @media (max-width: 991.98px) {
-      .img, .login-wrap {
-        width: 100%; } }
+  width: 50%; 
+}
+
+@media (max-width: 991.98px) {
+.img, .login-wrap {
+  width: 100%; } 
+}
   
-  @media (max-width: 767.98px) {
-    .wrap .img {
-      height: 450px; } 
+@media (max-width: 767.98px) {
+.wrap .img {
+  height: 400px; } 
+.section {
+  padding: 0; }
 }
 
 .wrap {

@@ -23,6 +23,7 @@
 
 .section {
   padding: 7em 0;
+  font-family: 'Poppins', sans-serif;
 }
 
 .img {
@@ -64,7 +65,8 @@
 }
 
 .login h3 {
-  color: #5b4577 ;
+  color: #5b4577;
+  font-size: 20px;
 }
 
 .form-group {

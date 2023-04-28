@@ -5,9 +5,9 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
 
-* {
+/* * {
   font-family: 'Poppins', sans-serif;
-}
+} */
 
 .breadcrumb {
   background-image: url(../../assets/breadcrumb-banner.png);
@@ -32,7 +32,7 @@
 
 h6 {
   color: #5b4577;
-  font-family: 'Pacifico', cursive;
+  font-family: 'Pacifico', cursive !important;
   font-size: 20px !important;
   letter-spacing: 2px;
   word-spacing: 4px;
@@ -51,7 +51,7 @@ h6 {
 
 .meet {
   width: 100%;
-  font-family: 'Pacifico', cursive;
+  font-family: 'Pacifico', cursive !important;
   color: #5b4577;
 }
 

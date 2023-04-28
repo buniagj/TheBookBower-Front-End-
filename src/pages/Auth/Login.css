@@ -77,14 +77,20 @@
 }
 
 .form-group .label {
-    font-size: 12px;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    color: #5b4577 ;
-    font-weight: 700;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #5b4577 ;
+  font-weight: 700;
 }
-  .form-group a {
-    color: gray; }
+.form-group a {
+  color: gray;
+  text-decoration: none;
+}
+
+.form-group a:hover {
+  color: #5b4577;
+}
 
 .form-control {
   height: 48px;
@@ -112,17 +118,71 @@
   color: #fff !important; 
 }
 
-.btn.btn-primary:hover {
-        border: 1px solid #5b4577;
-        background: transparent;
-        color: #5b4577; }
-      .btn.btn-primary.btn-outline-primary {
-        border: 1px solid #5b4577;
-        background: transparent;
-        color: #5b4577; }
-        .btn.btn-primary.btn-outline-primary:hover {
-          border: 1px solid transparent;
-          background: #5b4577;
-          color: #fff; }
+.checkbox-wrap {
+  display: block;
+  position: relative;
+  padding-left: 30px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 500;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
 
-  
+/* Hide the browser's default checkbox */
+.checkbox-wrap input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0; }
+
+/* Create a custom checkbox */
+.checkmark {
+  position: absolute;
+  top: 0;
+  left: 0; }
+
+/* Create the checkmark/indicator (hidden when not checked) */
+.checkmark:after {
+  content: "\f0c8";
+  font-family: "FontAwesome";
+  position: absolute;
+  color: rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  margin-top: -4px;
+  -webkit-transition: 0.3s;
+  -o-transition: 0.3s;
+  transition: 0.3s; }
+
+@media (prefers-reduced-motion: reduce) {
+.checkmark:after {
+  -webkit-transition: none;
+  -o-transition: none;
+  transition: none; }
+}
+
+/* Show the checkmark when checked */
+.checkbox-wrap input:checked ~ .checkmark:after {
+  display: block;
+  content: "\f14a";
+  font-family: "FontAwesome";
+  color: rgba(0, 0, 0, 0.2); }
+
+/* Style the checkmark/indicator */
+.checkbox-primary {
+  color: #5b4577; }
+  .checkbox-primary input:checked ~ .checkmark:after {
+    color: #5b4577; }
+
+@media (min-width: 768px) {
+.text-md-left {
+  text-align: left !important; }
+.text-md-right {
+  text-align: right !important; }
+.text-md-center {
+  text-align: center !important; }
+}
+    

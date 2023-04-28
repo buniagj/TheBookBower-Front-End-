@@ -2,11 +2,16 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Container from 'react-bootstrap/Container';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
 import './Login.css';
 
 function Login() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
   async function handleSubmit(event) {
@@ -39,6 +44,19 @@ function Login() {
     }
   }
 
+  function toggleShowPassword() {
+    setShowPassword(!showPassword);
+  }
+
+  function toggleRememberMe() {
+    setRememberMe(!rememberMe);
+  }
+
+  function handleForgotPasswordClick(event) {
+    event.preventDefault();
+    // Add logic for forgot password functionality here
+  }
+
   return (
     <div className="login">
       <Breadcrumb>
@@ -65,22 +83,37 @@ function Login() {
                     </div>
                     <div className="form-group mb-4">
                       <label className="label">Password</label>
-                      <input type="password" className="form-control" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required></input>
+                      <div className="password-input-container">
+                        <input
+                          type={showPassword ? "text" : "password"}
+                          className="form-control password-input"
+                          placeholder="Password"
+                          value={password}
+                          onChange={e => setPassword(e.target.value)}
+                          required
+                        />
+                        <span className="password-toggle-icon" onClick={toggleShowPassword}>
+                          {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                        </span>
+
+                      </div>
+                    </div>
+                    <div className="form-group d-md-flex">
+                      <div className="w-50">
+                        <label className="checkbox-wrap checkbox-primary">Remember Me
+                          <input type="checkbox" checked={rememberMe} onChange={toggleRememberMe}/>
+                          <span className="checkmark"></span>
+                        </label>
+                      </div>
+                      <div className="w-50 text-md-right">
+                        <a href="./ForgotPassword" onClick={handleForgotPasswordClick}>Forgot Password</a>
+                      </div>
                     </div>
                     <div className="form-group mb-4">
-                      <button type="submit" className="form-control btn btn-primary rounded submit px-3">Log In</button>
-                    </div>
-                    <div className="d-flex mb-5 align-items-center">
-                      <label className="checkbox-wrap checkbox-primary mb-0">Remember Me
-                        <input type="checkbox"></input>
-                        <span className="checkmark"></span>
-                      </label>
-                      <span className="ml-auto">
-                        <a href="#">Forgot Password</a>
-                      </span>
-                    </div>
+                      <button type="submit" className="btn btn-primary btn-lg btn-block">Log In</button>
+                    </div> 
                   </form>
-                  <p className="text-center">Not yet registered? <a data-toggle="tab" href="/signup">Sign Up</a></p>
+                  <p className="text-center">Don't have an account? <a href="/register">Sign Up</a></p>
                 </div>
               </div>
             </div>

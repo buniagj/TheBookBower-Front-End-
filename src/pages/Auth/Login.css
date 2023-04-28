@@ -36,6 +36,22 @@
   width: 50%; 
 }
 
+.password-input-container {
+  position: relative;
+}
+
+.password-input {
+  padding-right: 2.5rem;
+}
+
+.password-toggle-icon {
+  position: absolute;
+  top: 50%;
+  right: 0.5rem;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
 @media (max-width: 991.98px) {
 .img, .login-wrap {
   width: 100%; } 
@@ -176,6 +192,8 @@
   color: #5b4577; }
   .checkbox-primary input:checked ~ .checkmark:after {
     color: #5b4577; }
+
+
 
 @media (min-width: 768px) {
 .text-md-left {

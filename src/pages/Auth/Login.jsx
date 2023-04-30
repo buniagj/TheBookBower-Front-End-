@@ -2,9 +2,8 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Container from 'react-bootstrap/Container';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+import { faEye, faEyeSlash, faEnvelope, faUnlockKeyhole } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-
 import './Login.css';
 
 function Login() {
@@ -61,10 +60,10 @@ function Login() {
     <div className="login">
       <Breadcrumb>
             <Container>
-              <div className="category-page-title">Login To Your Account</div>
+              <div className="category-page-title">Login to Your Account</div>
             </Container>
       </Breadcrumb>
-      <section className='section'>
+      <section className="section">
         <Container>
           <div className="row justify-content-center">
             <div className="col-md-12 col-lg-10">
@@ -77,13 +76,17 @@ function Login() {
                     </div>
                   </div>
                   <form className="sign-in"onSubmit={handleSubmit}>
-                    <div className="form-group mb-4">
+                    <div className="form-group mb-2">
                       <label className="label">Email</label>
-                      <input type="email" className="form-control" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required></input>
+                      <div className="email-input-container">
+                        <span className="email-icon"><FontAwesomeIcon icon={faEnvelope} /></span>
+                        <input type="email" className="form-control email-input" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required></input>
+                      </div>
                     </div>
-                    <div className="form-group mb-4">
+                    <div className="form-group mb-3">
                       <label className="label">Password</label>
                       <div className="password-input-container">
+                        <span className="lock-icon"><FontAwesomeIcon icon={faUnlockKeyhole} /></span>
                         <input
                           type={showPassword ? "text" : "password"}
                           className="form-control password-input"
@@ -98,26 +101,24 @@ function Login() {
 
                       </div>
                     </div>
-                    <div className="form-group d-md-flex">
-                      <div className="w-50">
-                        <label className="checkbox-wrap checkbox-primary">Remember Me
-                          <input type="checkbox" checked={rememberMe} onChange={toggleRememberMe}/>
-                          <span className="checkmark"></span>
-                        </label>
-                      </div>
-                      <div className="w-50 text-md-right">
-                        <a href="./ForgotPassword" onClick={handleForgotPasswordClick}>Forgot Password</a>
-                      </div>
+                    <div className="d-flex mb-4 align-items-center">
+                      <label className="checkbox-wrap checkbox-primary">Remember Me
+                        <input type="checkbox" checked={rememberMe} onChange={toggleRememberMe}/>
+                        <span className="checkmark"></span>
+                      </label>
+                      <span className="ml-auto">
+                        <a href="/forgot-password" onClick={handleForgotPasswordClick}>Forgot Password</a>
+                      </span>
                     </div>
-                    <div className="form-group mb-4">
-                      <button type="submit" className="btn btn-primary btn-lg btn-block">Log In</button>
+                    <div className="form-group mb-3">
+                      <button type="submit" className="form-control btn btn-primary rounded submit px-3">Log In</button>
                     </div> 
                   </form>
-                  <p className="text-center">Don't have an account? <a href="/register">Sign Up</a></p>
+                  <p className="text-center">Don't have an account? <a href="/signup">Sign Up</a></p>
                 </div>
               </div>
             </div>
-          </div>
+          </div> 
         </Container>
       </section>
     </div>

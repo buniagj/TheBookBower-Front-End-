@@ -37,7 +37,7 @@
 }
 
 .signup .img {
-  background-image: url(../../assets/the-book-bower-forgot-password.png);
+  background-image: url(../../assets/the-book-bower-forgot-signup.png);
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center center;
@@ -53,14 +53,15 @@
 }
   
 @media (max-width: 767.98px) {
-.wrap .img {
-  height: 230px; } 
-.section {
+.signup .wrap .img {
+  margin-top: 100px;
+  height:200px; } 
+.signup .section {
   padding: 0; }
-.breadcrumb {
+.signup .breadcrumb {
   display: none !important;}
 .signup h3 {
-  margin-top: 15px;}
+  margin-top: 10px;}
 }
 
 .wrap {

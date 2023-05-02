@@ -83,7 +83,7 @@ function Login() {
                         <input type="email" className="form-control email-input" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)} required></input>
                       </div>
                     </div>
-                    <div className="form-group mb-3">
+                    <div className="form-group mb-4">
                       <label className="label">Password</label>
                       <div className="password-input-container">
                         <span className="lock-icon"><FontAwesomeIcon icon={faUnlockKeyhole} /></span>
@@ -101,7 +101,7 @@ function Login() {
 
                       </div>
                     </div>
-                    <div className="d-flex mb-4 align-items-center">
+                    <div className="d-flex mb-5 align-items-center">
                       <label className="checkbox-wrap checkbox-primary">Remember Me
                         <input type="checkbox" checked={rememberMe} onChange={toggleRememberMe}/>
                         <span className="checkmark"></span>
@@ -110,7 +110,7 @@ function Login() {
                         <a href="/forgot-password" onClick={handleForgotPasswordClick}>Forgot Password</a>
                       </span>
                     </div>
-                    <div className="form-group mb-3">
+                    <div className="form-group mb-4">
                       <button type="submit" className="form-control btn btn-primary rounded submit px-3">Log In</button>
                     </div> 
                   </form>

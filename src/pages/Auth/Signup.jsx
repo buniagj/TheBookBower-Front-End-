@@ -40,9 +40,10 @@ function Signup() {
       const data = await response.json();
       // Assuming your Laravel API sends a verification email
       alert('A verification email has been sent to your email address. Please check your inbox and follow the instructions to complete the registration process.');
-      window.location.replace('/login'); // Redirect the user to the login page after registration
+      window.location.replace('/admin'); // Redirect the user to the login page after registration
     } catch (error) {
       console.error(error);
+      setError('Registration failed. Please try again later.');
     }
   }
 
@@ -141,11 +142,11 @@ function Signup() {
                         <span className="checkmark"></span>
                         I accept the
                         &nbsp;
-                        <a href="#">Terms of Use</a>
+                        <a href="/terms">Terms of Use</a>
                         &nbsp;
                         &
                         &nbsp;
-                        <a href="#">Privacy Policy</a>
+                        <a href="/privacy">Privacy Policy</a>
                       </label>
                       </div>
                       <div className="form-group mb-3">

@@ -12,7 +12,7 @@ function FeaturedBooks() {
 
   return (
     <div>
-      <h2>Featured Books for April</h2>
+      <h2>Featured Books for May</h2>
       {books.map(book => (
         <div key={book.id}>
           <h3>{book.title}</h3>

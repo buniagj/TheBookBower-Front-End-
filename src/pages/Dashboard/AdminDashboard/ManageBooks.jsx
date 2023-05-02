@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Sort from './Sort';
-import FilterBooks from './FilterBooks';
-import Search from './SearchBook';
+import FilterBooks from './FilterBook';
+import Search from './Search';
 import ChangeStatus from './ChangeStatus';
 import AvailableStock from './AvailableStock';
 import DeleteBook from './DeleteBook';

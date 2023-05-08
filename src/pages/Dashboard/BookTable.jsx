@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import _ from 'lodash'; // Import Lodash library
 import BorrowedBooksTable from './BorrowedTable';
 import ReturnedBooksTable from './ReturnedTable';
 import Pagination from './AdminDashboard/Pagination';
@@ -53,63 +54,55 @@ function BookTable() {
     setCurrentPage(1);
   };
 
-  const getPageData = (items) => {
-    const filteredItems = searchQuery
-      ? items.filter((item) =>
-          item.title.toLowerCase().includes(searchQuery.toLowerCase())
-        )
-      : items;
+  const getCombinedData = () => {
+    const allBooks = [...borrowedBooks, ...returnedBooks];
+    const filteredBooks = searchQuery
+      ? allBooks.filter((book) => book.title.toLowerCase().includes(searchQuery.toLowerCase()))
+      : allBooks;
 
-    const sortedItems = _.orderBy(
-      filteredItems,
-      [sortColumn.path],
-      [sortColumn.order]
-    );
+    const sortedBooks = _.orderBy(filteredBooks, [sortColumn.path], [sortColumn.order]);
 
-    const slicedItems = sortedItems.slice(
+    const slicedBooks = sortedBooks.slice(
       (currentPage - 1) * resultsPerPage,
       currentPage * resultsPerPage
     );
 
     return {
-      totalCount: filteredItems.length,
-      data: slicedItems,
+      totalCount: filteredBooks.length,
+      data: slicedBooks,
     };
   };
 
-  const { totalCount: borrowedBooksCount, data: currentBorrowedBooks } = getPageData(
-    borrowedBooks
-  );
-
-  const { totalCount: returnedBooksCount, data: currentReturnedBooks } = getPageData(
-    returnedBooks
-  );
+  const { totalCount, data: currentBooks } = getCombinedData();
 
   return (
     <div>
-      <BorrowedBooksTable
-        books={currentBorrowedBooks}
-        sortColumn={sortColumn}
-        onSort={handleSort}
-        searchQuery={searchQuery}
-        onSearch={handleSearch}
-      />
+      <table className="table table-bordered">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Status</th>
+            <th>Borrower</th>
+            <th>Borrowed Date</th>
+            <th>Return Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          {currentBooks.map((book) => (
+            <tr key={book.id}>
+              <td>{book.title}</td>
+              <td>{book.author}</td>
+              <td>{book.status}</td>
+              <td>{book.borrower}</td>
+              <td>{book.borrowedDate}</td>
+              <td>{book.returnDate}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
       <Pagination
-        totalResults={borrowedBooksCount}
-        resultsPerPage={resultsPerPage}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        onResultsPerPageChange={handleResultsPerPageChange}
-      />
-      <ReturnedBooksTable
-        books={currentReturnedBooks}
-        sortColumn={sortColumn}
-        onSort={handleSort}
-        searchQuery={searchQuery}
-        onSearch={handleSearch}
-      />
-     <Pagination
-        totalResults={returnedBooksCount}
+        totalResults={totalCount}
         resultsPerPage={resultsPerPage}
         currentPage={currentPage}
         onPageChange={handlePageChange}

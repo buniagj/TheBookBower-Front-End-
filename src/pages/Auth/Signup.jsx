@@ -16,36 +16,41 @@ function Signup() {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    try {
-      const response = await fetch('/api/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ 
-          name, 
-          phone_number: phoneNumber,
-          address,
-          email, 
-          password, 
-          password_confirmation: passwordConfirmation,
-          role,
-          grade_level: gradeLevel,
-          section,
-          
-        })
-      });
-      const data = await response.json();
-      // Assuming your Laravel API sends a verification email
-      alert('A verification email has been sent to your email address. Please check your inbox and follow the instructions to complete the registration process.');
-      window.location.replace('/admin'); // Redirect the user to the login page after registration
-    } catch (error) {
-      console.error(error);
-      setError('Registration failed. Please try again later.');
+ async function handleSubmit(event) {
+  event.preventDefault();
+  try {
+    const response = await fetch('/api/register', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ 
+        name, 
+        phone_number: phoneNumber,
+        address,
+        email, 
+        password, 
+        password_confirmation: passwordConfirmation,
+        role,
+        grade_level: gradeLevel,
+        section
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error('Registration failed. Please try again later.');
     }
+
+    const data = await response.json();
+    // Assuming your Laravel API sends a verification email
+    alert('A verification email has been sent to your email address. Please check your inbox and follow the instructions to complete the registration process.');
+    window.location.replace('/admin'); // Redirect the user to the login page after registration
+  } catch (error) {
+    console.error(error);
+    // setError('Registration failed. Please try again later.');
   }
+}
+
 
   return (
     <div className="signup">
@@ -67,7 +72,7 @@ function Signup() {
                       <p className="caption">Please fill in this form to create an account!</p>
                     </div>
                   </div>
-                  <form className="sign-in"onSubmit={handleSubmit}>
+                  <form className="sign-in" onSubmit={handleSubmit}>
                     <div className="form-group mb-2">
                       <label className="label">Full Name</label>
                       <div className="name-input-container">

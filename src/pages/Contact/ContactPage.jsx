@@ -27,7 +27,7 @@ const ContactPage = () => {
     e.preventDefault();
     // Send form data to the Laravel backend
     try {
-      const response = await fetch('/api/messages', {
+      const response = await fetch('/api/messages', {     
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Container from 'react-bootstrap/Container';
-import { faUser, faPhone, faLocationDot, faEnvelope, faUnlockKeyhole, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhone, faLocationDot, faEnvelope, faUnlockKeyhole, faKey, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Signup.css';
 
@@ -15,6 +15,7 @@ function Signup() {
   const [section, setSection] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
  async function handleSubmit(event) {
   event.preventDefault();
@@ -51,6 +52,9 @@ function Signup() {
   }
 }
 
+  function toggleShowPassword() {
+    setShowPassword(!showPassword);
+  }
 
   return (
     <div className="signup">
@@ -106,6 +110,9 @@ function Signup() {
                       <div className="password-input-container">
                         <span className="lock-icon"><FontAwesomeIcon icon={faUnlockKeyhole} /></span>
                         <input type="password" className="form-control password-input" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required></input>
+                        <span className="password-toggle-icon" onClick={toggleShowPassword}>
+                          {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                        </span>
                       </div>
                     </div>
                     <div className="form-group mb-2">
@@ -113,6 +120,9 @@ function Signup() {
                       <div className="confirm-password-input-container">
                         <span className="lock-icon"><FontAwesomeIcon icon={faKey} /></span>
                         <input type="password" className="form-control confirm-password-input" placeholder="Confirm Password" value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value)} required></input>
+                        <span className="password-toggle-icon" onClick={toggleShowPassword}>
+                          {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                        </span>
                       </div>
                     </div>
                     <div className="form-group mb-2">

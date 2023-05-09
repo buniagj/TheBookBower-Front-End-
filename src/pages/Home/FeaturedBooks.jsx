@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import Carousel from 'react-multi-carousel';
 import { Modal, Button} from 'react-bootstrap';
 import  { Container } from 'react-bootstrap';
@@ -17,7 +18,7 @@ function FeaturedBooks() {
   const [books, setBooks] = useState([]);
 
   useEffect(() => {
-    fetch('https://your-api-endpoint.com/books/featured?month=april')
+    fetch('https://your-api-endpoint.com/books/featured?month=may')
       .then(response => response.json())
       .then(data => setBooks(data))
       .catch(error => console.log(error));
@@ -53,7 +54,7 @@ function FeaturedBooks() {
 
   return (
     <div id="carousel">
-      <h2>Featured Books for April</h2>
+      <h2>Featured Books for May</h2>
       <Container>
         <Carousel responsive={responsive}>
           <div className="featured-books">
@@ -78,7 +79,7 @@ function FeaturedBooks() {
                 data-bs-toggle="modal"
                 data-bs-target="#HP1"
                 onClick={handleShow}>
-                Borrow
+                Read More
               </Button>
             </div>
           </div>
@@ -104,7 +105,7 @@ function FeaturedBooks() {
                 data-bs-toggle="modal"
                 data-bs-target="#HP2"
                 onClick={handleShow}>
-                Borrow
+                Read More
               </Button>
             </div>
           </div>
@@ -130,7 +131,7 @@ function FeaturedBooks() {
                 data-bs-toggle="modal"
                 data-bs-target="#HP3"
                 onClick={handleShow}>
-                Borrow
+                Read More
               </Button>
             </div>
           </div> 
@@ -156,7 +157,7 @@ function FeaturedBooks() {
                 data-bs-toggle="modal"
                 data-bs-target="#HP4"
                 onClick={handleShow}>
-                Borrow
+                Read More
               </Button>
             </div>
           </div> 
@@ -182,7 +183,7 @@ function FeaturedBooks() {
                 data-bs-toggle="modal"
                 data-bs-target="#HP5"
                 onClick={handleShow}>
-                Borrow
+                Read More
               </Button>
             </div>
           </div> 
@@ -208,7 +209,7 @@ function FeaturedBooks() {
                 data-bs-toggle="modal"
                 data-bs-target="#HP6"
                 onClick={handleShow}>
-                Borrow
+                Read More
               </Button>
             </div>
           </div> 
@@ -234,15 +235,15 @@ function FeaturedBooks() {
                 data-bs-toggle="modal"
                 data-bs-target="#HP7"
                 onClick={handleShow}>
-                Borrow
+                Read More
               </Button>
             </div>
           </div> 
-          <Modal id="HP1" show={show} onHide={handleClose}>
+          <Modal id="HP1" show={show} onHide={handleClose} size="l" scrollable>
             <Modal.Header closeButton className="close">
               <Modal.Title>Harry Potter and the Philosopher's Stone</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body  style={{ maxHeight: "60vh", overflowY: "scroll" }}>
               <img className="img-responsive"src={HarryPotter1} alt="" />
               <p>
                 “Turning the envelope over, his hand trembling, Harry saw a purple wax seal bearing a coat of arms; a lion, an eagle, a badger and a snake surrounding a large letter ‘H’.”
@@ -255,9 +256,11 @@ function FeaturedBooks() {
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
-              <Button variant="primary" onClick={handleClose}>
-                Save Changes
+              <Link to='/borrow-form${selectedBook.id}'>
+                <Button variant="primary" onClick={handleClose}>
+                  Borrow
               </Button>
+              </Link>
             </Modal.Footer>
           </Modal>
         </Carousel>

@@ -33,8 +33,12 @@ function Search({ type, onChange }) {
 }
 
 Search.propTypes = {
-  type: PropTypes.oneOf(['books', 'users']).isRequired,
-  onChange: PropTypes.func.isRequired,
+  type: PropTypes.string.isRequired,
 };
+
+Search.defaultProps = {
+  type: 'default',
+};
+
 
 export default Search;

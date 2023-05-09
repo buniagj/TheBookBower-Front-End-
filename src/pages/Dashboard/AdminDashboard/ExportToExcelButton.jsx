@@ -1,4 +1,5 @@
 import React from 'react';
+import XLSX from 'xlsx/dist/xlsx.full.min.js';
 
 function ExportExcelButton(props) {
   const handleClick = () => {

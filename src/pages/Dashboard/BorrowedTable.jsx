@@ -42,12 +42,12 @@ export default function BorrowedTable({ borrowedBooks, onDelete, onEdit, onChang
     onAdd(book);
   }
 
-  const filteredBooks = borrowedBooks.filter((book) => {
-    if (filterStatus === '') {
-      return true;
-    }
-    return book.status === filterStatus;
-  });
+  const filteredBooks = (borrowedBooks ?? []).filter((book) => {
+  if (filterStatus === '') {
+    return true;
+  }
+  return book.status === filterStatus;
+});
 
   const sortedBooks = filteredBooks.sort((book1, book2) => {
     if (sortType === '') {

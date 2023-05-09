@@ -37,7 +37,7 @@ export default function ManageBook() {
     setSortType(type);
   };
 
-  const handleSearch = (event) => {
+  const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
   };
 
@@ -101,48 +101,54 @@ export default function ManageBook() {
           </tr>
         </thead>
         <tbody>
-          {sortedBooks.map(book => (
-            <tr key={book.id}>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.price}</td>
-              <td><ChangeStatus book={book} /></td>
-              <td>{book.availableStock}</td>
-              <td>
-                <button onClick={() => editBook(book)}>Edit</button>
-                <button onClick={() => deleteBook(book)}>Delete</button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    );
-  };
+  {sortedBooks.map(book => (
+    <tr key={book.id}>
+      <td>{book.title}</td>
+      <td>{book.author}</td>
+      <td>{book.price}</td>
+      <td><ChangeStatus book={book} /></td>
+      <td>{book.availableStock}</td>
+      <td>
+        <button onClick={() => editBook(book)}>Edit</button>
+        <button onClick={() => deleteBook(book)}>Delete</button>
+      </td>
+    </tr>
+  ))}
+</tbody>
 
-  return (
-    <div>
-      <h1>Manage Books</h1>
-      <div>
-        <button onClick={addBook}>Add Book</button>
-        <ExportToExcel books={books} />
-      </div>
-      <div>
-        <Search searchTerm={searchTerm} handleSearch={handleSearch} />
-        <FilterBooks />
-        <Sort sortType={sortType} onSort={sortBooks} />
-      </div>
-      {renderBookTable()}
-      <AvailableStock books={books} />
-      <Pagination
-        booksPerPage={booksPerPage}
-        totalBooks={books.length}
-        currentPage={currentPage}
-        handlePagination={handlePagination}
-      />
-      {showAddBookForm && <AddBook onClose={closeAddBookForm} />}
-      {showEditBookForm && <EditBook book={currentBook} onClose={closeEditBookForm} />}
-      {editing && <EditBook book={currentBook} onClose={closeEditBookForm} />}
-      {showDeleteBookForm && <DeleteBook book={currentBook} onClose={closeDeleteBookForm} />}
-    </div>
-  );
+          </table>
+    );
+    };
+
+return (
+<div>
+<h1>Manage Books</h1>
+<div className="actions">
+<Search type="books" onChange={handleSearchChange} />
+<FilterBooks books={books} setBooks={setBooks} />
+<button onClick={addBook}>Add Book</button>
+<ExportToExcel books={books} />
+</div>
+{renderBookTable()}
+<Pagination
+     booksPerPage={booksPerPage}
+     totalBooks={books.length}
+     paginate={handlePagination}
+   />
+{showAddBookForm && <AddBook closeAddBookForm={closeAddBookForm} />}
+{showEditBookForm && (
+<EditBook
+       currentBook={currentBook}
+       editing={editing}
+       closeEditBookForm={closeEditBookForm}
+     />
+)}
+{showDeleteBookForm && (
+<DeleteBook
+       currentBook={currentBook}
+       closeDeleteBookForm={closeDeleteBookForm}
+     />
+)}
+</div>
+);
 }

@@ -116,6 +116,10 @@ const ReturnedTable = ({ data = [], isAdmin }) => {
   // Render the component
   return (
     <Container fluid>
+      <Col>
+          <h2 className="mb-3">Returned Books</h2>
+      </Col>
+      <br />
         <Row className="justify-content-center">
           <Col xs={12} md={12}>
             <Search searchTerm={searchTerm} handleSearch={handleSearch} />
@@ -182,7 +186,7 @@ const ReturnedTable = ({ data = [], isAdmin }) => {
         </Col>
       </Row>
       <Row>
-        <Col className="d-flex justify-content-end">
+        <Col>
           <Pagination
             itemsPerPage={itemsPerPage}
             totalItems={sortedData.length}

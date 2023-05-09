@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import BookTable from '../BookTable';
-import defaultProfilePhoto from '../../../assets/Alexandrite.png';
+import defaultProfilePhoto from '../../../assets/owl.png';
+import '../AdminDashboard/Admin.css';
 
 function UserDashboard() {
   const [user, setUser] = useState({});

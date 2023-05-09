@@ -2,7 +2,7 @@ import React from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Container from 'react-bootstrap/Container';
 import Jean from '../../assets/Jean.jpg';
-import Alexandrite from '../../assets/Alexandrite.png';
+import Alexandrite from '../../assets/Alexandrite.jpg';
 import Norman from '../../assets/Norman.png';
 import './About.css'
 

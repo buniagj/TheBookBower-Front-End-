@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './Admin.css';
 
 function FilterBook() {
   const [books, setBooks] = useState([]);
@@ -76,17 +77,33 @@ function FilterBook() {
   }
 
   return (
-    <div>
-      <input type="text" value={filters.search} onChange={handleSearchInputChange} />
-      <select value={filters.status} onChange={handleStatusSelectChange}>
+    <div style={{ display: 'flex', alignItems: 'center' }}>
+      <label style={{ marginRight: '10px' }}> Status:</label>
+      <select style={{ width: '200px', marginRight: '10px' }} value={filters.status} onChange={handleStatusSelectChange}>
         <option value="">--Select Status--</option>
         <option value="borrowed">Borrowed</option>
         <option value="returned">Returned</option>
         <option value="out of stock">Out of Stock</option>
       </select>
-      <input type="date" value={filters.startDate} onChange={handleStartDateInputChange} />
-      <input type="date" value={filters.endDate} onChange={handleEndDateInputChange} />
-      <button onClick={handleFilterButtonClick}>Filter</button>
+      <label style={{ marginRight: '10px' }}>Start Date:</label>
+      <input style={{ marginRight: '10px' }} type="date" value={filters.startDate} onChange={handleStartDateInputChange} />
+      <label style={{ marginRight: '10px' }}>End Date:</label>
+      <input style={{ marginRight: '10px' }} type="date" value={filters.endDate} onChange={handleEndDateInputChange} />
+      <button 
+        onClick={handleFilterButtonClick} 
+        style={{ 
+          backgroundColor: "#C569DB", 
+          color: "white", 
+          border: "none", 
+          borderRadius: "4px", 
+          padding: "8px 16px", 
+          textDecoration: "none", 
+          cursor: "pointer" 
+        }}
+      >
+        Filter
+      </button>
+
     </div>
   );
 }

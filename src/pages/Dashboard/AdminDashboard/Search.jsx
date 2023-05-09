@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
+import '../AdminDashboard/Admin.css';
 
 function Search({ type, onChange }) {
   const [query, setQuery] = useState('');
@@ -16,18 +17,20 @@ function Search({ type, onChange }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="form-inline my-2 my-lg-0">
-      <input
-        className="form-control mr-sm-2"
-        type="search"
-        placeholder={`Search ${type}`}
-        aria-label={`Search ${type}`}
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-        Search
-      </button>
+    <form onSubmit={handleSubmit} className="search-container">
+      <div className="search-wrapper">
+        <input
+          className="search-input"
+          type="search"
+          placeholder={`Search ${type}`}
+          aria-label={`Search ${type}`}
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        <button className="search-button" type="submit">
+          Search
+        </button>
+      </div>
     </form>
   );
 }
@@ -39,6 +42,5 @@ Search.propTypes = {
 Search.defaultProps = {
   type: 'default',
 };
-
 
 export default Search;

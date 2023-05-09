@@ -1,9 +1,9 @@
 import { useState } from "react";
 
 export default function EditBookForm({ book, onEdit }) {
-  const [title, setTitle] = useState(book.title);
-  const [author, setAuthor] = useState(book.author);
-  const [status, setStatus] = useState(book.status);
+  const [title, setTitle] = useState(book?.title || '');
+  const [author, setAuthor] = useState(book?.author || '');
+  const [status, setStatus] = useState(book?.status || 'available');
 
   function handleSubmit(e) {
     e.preventDefault();

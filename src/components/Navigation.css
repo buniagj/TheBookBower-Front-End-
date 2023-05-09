@@ -25,3 +25,14 @@ Feel free to add your design. */
   font-family: 'Poppins', sans-serif;
   margin-right: 50px !important;
 }
+
+/* fix for the content being hidden behind the navbar */
+body {
+    padding-top: 100px;
+}
+
+@media only screen and (max-width: 767px) {
+    body {
+        padding-top: 56px;
+    }
+}

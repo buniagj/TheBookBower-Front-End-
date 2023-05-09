@@ -1,24 +1,34 @@
-export default function exportToExcel(data) {
-  // Create a new blank workbook
-  const workbook = XLSX.utils.book_new();
+import * as XLSX from 'xlsx';
 
-  // Convert data to worksheet
-  const worksheet = XLSX.utils.json_to_sheet(data);
+export default function exportToExcel() {
+  // Fetch data from an API endpoint
+  fetch('https://example.com/api/books')
+    .then(response => response.json())
+    .then(data => {
+      // Create a new blank workbook
+      const workbook = XLSX.utils.book_new();
 
-  // Add the worksheet to the workbook
-  XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
+      // Convert data to worksheet
+      const worksheet = XLSX.utils.json_to_sheet(data);
 
-  // Write the workbook to a buffer
-  const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
+      // Add the worksheet to the workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, 'Data');
 
-  // Convert buffer to Blob
-  const dataUrl = URL.createObjectURL(new Blob([buffer]));
+      // Write the workbook to a buffer
+      const buffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
 
-  // Create a link and trigger a download
-  const link = document.createElement('a');
-  link.href = dataUrl;
-  link.setAttribute('download', 'exported_data.xlsx');
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
+      // Convert buffer to Blob
+      const dataUrl = URL.createObjectURL(new Blob([buffer]));
+
+      // Create a link and trigger a download
+      const link = document.createElement('a');
+      link.href = dataUrl;
+      link.setAttribute('download', 'exported_data.xlsx');
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    })
+    .catch(error => {
+      console.error('Error fetching data:', error);
+    });
 }

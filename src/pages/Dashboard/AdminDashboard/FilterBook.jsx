@@ -87,33 +87,6 @@ function FilterBook() {
       <input type="date" value={filters.startDate} onChange={handleStartDateInputChange} />
       <input type="date" value={filters.endDate} onChange={handleEndDateInputChange} />
       <button onClick={handleFilterButtonClick}>Filter</button>
-
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Publisher</th>
-            <th>Status</th>
-            <th>Borrowed Date</th>
-            <th>Returned Date</th>
-          </tr>
-        </thead>
-        <tbody>
-          {filteredBooks.map(book => (
-            <tr key={book.id}>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.publisher}</td>
-              <td>{book.status}</td>
-              <td>{book.borrowedDate}</td>
-              <td>{book.returnedDate}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-
-      <p>Due date: {books.dueDate.toDateString()}</p>
     </div>
   );
 }

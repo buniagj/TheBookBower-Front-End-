@@ -42,12 +42,12 @@ export default function BorrowedTable({ borrowedBooks, onDelete, onEdit, onChang
     onAdd(book);
   }
 
-  const filteredBooks = borrowedBooks.filter((book) => {
-    if (filterStatus === '') {
-      return true;
-    }
-    return book.status === filterStatus;
-  });
+  const filteredBooks = (borrowedBooks ?? []).filter((book) => {
+  if (filterStatus === '') {
+    return true;
+  }
+  return book.status === filterStatus;
+});
 
   const sortedBooks = filteredBooks.sort((book1, book2) => {
     if (sortType === '') {
@@ -95,55 +95,33 @@ export default function BorrowedTable({ borrowedBooks, onDelete, onEdit, onChang
             <th>Title</th>
             <th>Author</th>
             <th>Status</th>
-            {isAdminView && <th>Edit</th>}
-            {isAdminView && <th>Delete</th>}
-            {isAdminView && <th>Change Status</th>}
+            {isAdminView && <th>Action</th>}
           </tr>
-              </thead>
-      <tbody>
-  {currentBooks.filter((book) => {
-    if (searchTerm === '') {
-      return true;
-    }
-    return (
-      book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      book.author.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-  }).map((book) => (
-    <tr key={book.id}>
-      <td>{book.title}</td>
-      <td>{book.author}</td>
-      <td>{book.status}</td>
-      {isAdminView && (
-        <td>
-          <EditBook book={book} onEdit={handleEdit} />
-        </td>
-      )}
-      {isAdminView && (
-        <td>
-          <DeleteBook book={book} onDelete={handleDelete} />
-        </td>
-      )}
-      {isAdminView && (
-        <td>
-          <ChangeStatus book={book} onChangeStatus={handleChangeStatus} />
-        </td>
-      )}
-    </tr>
-  ))}
-</tbody>
-{sortedBooks.length > booksPerPage && (
-<Pagination
- booksPerPage={booksPerPage}
- totalBooks={sortedBooks.length}
- paginate={paginate}
- currentPage={currentPage}
-/>
-)}
-
-{isAdminView && <ExportToExcel books={sortedBooks} />}
-
-</table>
-</div>
-);
+        </thead>
+        <tbody>
+          {currentBooks.map((book) => (
+            <tr key={book.id}>
+              <td>{book.title}</td>
+              <td>{book.author}</td>
+              <td>{book.status}</td>
+              {isAdminView && (
+                <td>
+                  <EditBook book={book} onEdit={handleEdit} />
+                  <ChangeStatus book={book} onChangeStatus={handleChangeStatus} />
+                  <DeleteBook book={book} onDelete={handleDelete} />
+                </td>
+              )}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      <Pagination
+        booksPerPage={booksPerPage}
+        totalBooks={sortedBooks.length}
+        paginate={paginate}
+        currentPage={currentPage}
+      />
+      {isAdminView && <ExportToExcel books={borrowedBooks} />}
+    </div>
+  );
 }

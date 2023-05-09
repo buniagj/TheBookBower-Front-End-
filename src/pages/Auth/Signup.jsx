@@ -78,8 +78,9 @@ try {
     role_name: role
   }
     const res = await http.post("/register", body)
-    localStorage.setItem('user', JSON.stringify(res.data.user))
-    localStorage.setItem('token', res.data.token)
+    console.log(res)
+    localStorage.setItem('user', JSON.stringify(res.data.data.user))
+    localStorage.setItem('token', res.data.data.token)
     navigate("/")
     navigate(0)
   } catch(e) {

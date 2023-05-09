@@ -11,6 +11,7 @@ function Navigation() {
   const [editMode, setEditMode] = useState(false);
 
   function handleLogout() {
+    localStorage.removeItem('user')
     localStorage.removeItem('token');
     localStorage.removeItem('role'); // remove role from local storage as well
     window.location.replace('/login');

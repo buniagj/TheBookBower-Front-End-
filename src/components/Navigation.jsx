@@ -4,17 +4,30 @@ import { Nav, Navbar, Container } from 'react-bootstrap';
 import UserDashboardNavbar from '../pages/Dashboard/UserDashboard/UserDashboardNavbar';
 import Logo from '../assets/the-book-bower-logo.png';
 import './Navigation.css';
+import http from "../lib/https" //Added
+import { useNavigate } from "react-router-dom" //Added
 
 function Navigation() {
   const isLoggedIn = !!localStorage.getItem('token');
   const isAdmin = localStorage.getItem('role') === 'admin';
   const [editMode, setEditMode] = useState(false);
+  const navigate = useNavigate();
 
-  function handleLogout() {
+  async function handleLogout() {
+    await http.post(
+      "/logout", {}, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`
+        }
+      }
+    )
     localStorage.removeItem('user')
     localStorage.removeItem('token');
-    localStorage.removeItem('role'); // remove role from local storage as well
-    window.location.replace('/login');
+    // localStorage.removeItem('role'); // remove role from local storage as well
+    // window.location.replace('/login');
+
+    navigate("/");
+    navigate(0);
   }
 
   return (

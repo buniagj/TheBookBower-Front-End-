@@ -23,7 +23,7 @@ function SearchBar() {
       setSearchResults(response.data);
       setNoResultsMessage('');
       if (response.data.length === 0) {
-        setNoResultsMessage('The book you are searching can\'t be found on the list.');
+        setNoResultsMessage("The book you are searching can't be found on the list.");
       }
     } catch (error) {
       console.error(error);
@@ -39,53 +39,80 @@ function SearchBar() {
   const currentResults = searchResults.slice(indexOfFirstResult, indexOfLastResult);
 
   // Array of letters to be used as categories
-  const categories = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'];
+  const categories = [
+    'A',
+    'B',
+    'C',
+    'D',
+    'E',
+    'F',
+    'G',
+    'H',
+    'I',
+    'J',
+    'K',
+    'L',
+    'M',
+    'N',
+    'O',
+    'P',
+    'Q',
+    'R',
+    'S',
+    'T',
+    'U',
+    'V',
+    'W',
+    'X',
+    'Y',
+    'Z',
+  ];
 
   return (
     <div className="search-bar-container">
       <form onSubmit={handleFormSubmit}>
         <input
+          className='s-bar'
           type="text"
-          placeholder="Search for books..."
+          placeholder="Find your next adventure: Search for books..."
           value={searchTerm}
           onChange={handleSearchInputChange}
         />
-        <button type="submit">Search</button>
+       
+        <button className='s-button' type="submit">Search</button>
       </form>
-      <div>
+      <div className="category-container">
         {categories.map((letter) => (
           <button
             key={letter}
             onClick={() => setCategory(letter)}
-            className="category-button"
+            className={`category-button${category === letter ? ' active' : ''}`}
+            style={{ backdropFilter: "blur(10px)", boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.2)" }}
           >
             {letter}
           </button>
         ))}
       </div>
       {noResultsMessage !== '' && <p className="no-results-message">{noResultsMessage}</p>}
-      {currentResults.length > 0 &&
-        <ul>
+      {currentResults.length > 0 && (
+        <ul className="results-container">
           {currentResults.map((result) => (
             <li key={result.id}>
               <h3>{result.title}</h3>
               <p>Author: {result.author}</p>
-              <p>Year: {result.year}</p>
+              <p>Year: {result.release_year}</p>
             </li>
           ))}
         </ul>
-      }
-      {searchTerm !== '' && currentResults.length === 0 ? (
-        <p>No results found.</p>
-      ) : null}
-
-      <Pagination
-        totalResults={searchResults.length}
-        resultsPerPage={resultsPerPage}
-        currentPage={currentPage}
-        onPageChange={handlePageChange}
-        setResultsPerPage={setResultsPerPage}
-      />
+      )}
+      {searchResults.length > resultsPerPage && (
+        <Pagination
+          resultsPerPage={resultsPerPage}
+          totalResults={searchResults.length}
+          currentPage={currentPage}
+          onPageChange={handlePageChange}
+        />
+      )}
     </div>
   );
 }

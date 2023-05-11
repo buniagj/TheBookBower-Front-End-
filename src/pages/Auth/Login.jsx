@@ -5,6 +5,7 @@ import Container from 'react-bootstrap/Container';
 import { faEye, faEyeSlash, faEnvelope, faUnlockKeyhole } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Login.css';
+import http from "../../lib/https" //Added
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -13,33 +14,71 @@ function Login() {
   const [rememberMe, setRememberMe] = useState(false);
   const navigate = useNavigate();
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    try {
-      const response = await fetch('/api/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({ email, password })
-      });
-      const data = await response.json();
-      // Assuming your Laravel API returns a token and role upon successful login
-      localStorage.setItem('token', data.token); 
-      localStorage.setItem('role', data.role); // Store the role in local storage
-      localStorage.setItem('grade_level', data.grade_level); // Store the grade level in local storage
-      localStorage.setItem('section', data.section); // Store the section in local storage
+  // async function handleSubmit(event) {
+  //   event.preventDefault();
+  //   try {
+  //     const response = await fetch('/api/login', {
+  //       method: 'POST',
+  //       headers: {
+  //         'Content-Type': 'application/json'
+  //       },
+  //       body: JSON.stringify({ email, password })
+  //     });
+  //     const data = await response.json();
+  //     // Assuming your Laravel API returns a token and role upon successful login
+  //     localStorage.setItem('token', data.token); 
+  //     localStorage.setItem('role', data.role); // Store the role in local storage
+  //     localStorage.setItem('grade_level', data.grade_level); // Store the grade level in local storage
+  //     localStorage.setItem('section', data.section); // Store the section in local storage
       
-      // Redirect the user to the appropriate dashboard based on their role
-      if (data.role === 'admin') {
+  //     // Redirect the user to the appropriate dashboard based on their role
+  //     if (data.role === 'admin') {
+  //       navigate('/admin');
+  //     } else if (data.role === 'teacher') {
+  //       navigate('/teacher');
+  //     } else {
+  //       navigate('/student');
+  //     }
+  //   } catch (error) {
+  //     console.error(error);
+  //   }
+  // }
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    e.stopPropagation();
+
+    if (
+      !email || !password
+    ) {
+      return
+    }
+
+    try {
+      const body = {
+        email,
+        password
+    }
+      const res = await http.post("/login", body)
+      localStorage.setItem('user', JSON.stringify(res.data.data.user))
+      localStorage.setItem('token', res.data.data.token)
+
+      if (res.data.data.user.role_name === 'admin') {
         navigate('/admin');
-      } else if (data.role === 'teacher') {
+      } else if (res.data.data.user.role_name === 'teacher') {
         navigate('/teacher');
       } else {
         navigate('/student');
       }
-    } catch (error) {
-      console.error(error);
+    } catch(e) {
+      if (e.response.data.errors){
+        setErrors({
+          email: e.response.data.errors.email,
+          password: e.response.data.error.password
+        })
+      } else {
+        alert(e.response.data.message);
+      }
     }
   }
 

@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 import Container from 'react-bootstrap/Container';
-import { faUser, faPhone, faLocationDot, faEnvelope, faUnlockKeyhole, faKey } from '@fortawesome/free-solid-svg-icons';
+import { faUser, faPhone, faLocationDot, faEnvelope, faUnlockKeyhole, faKey, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Signup.css';
+import http from "../../lib/https" //Added
+import { useNavigate } from "react-router-dom"; //Added
+
 
 function Signup() {
+  const navigate = useNavigate(); //Added
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -15,42 +19,94 @@ function Signup() {
   const [section, setSection] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const [address, setAddress] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
- async function handleSubmit(event) {
-  event.preventDefault();
-  try {
-    const response = await fetch('/api/register', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ 
-        name, 
-        phone_number: phoneNumber,
-        address,
-        email, 
-        password, 
-        password_confirmation: passwordConfirmation,
-        role,
-        grade_level: gradeLevel,
-        section
-      })
-    });
+//  async function handleSubmit(event) {
+//   event.preventDefault();
+//   try {
+//     const response = await fetch("/register", {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json'
+//       },
+//       body: JSON.stringify({ 
+//         name, 
+//         phone_number: phoneNumber,
+//         address,
+//         email, 
+//         password, 
+//         password_confirmation: passwordConfirmation,
+//         role_name: role,
+//         grade_level: gradeLevel,
+//         section
+//       })
+//     });
 
-    if (!response.ok) {
-      throw new Error('Registration failed. Please try again later.');
+//     if (!response.ok) {
+//       throw new Error('Registration failed. Please try again later.');
+//     }
+
+//     const data = await response.json();
+//     // Assuming your Laravel API sends a verification email
+//     alert('A verification email has been sent to your email address. Please check your inbox and follow the instructions to complete the registration process.');
+//     window.location.replace('/admin'); // Redirect the user to the login page after registration
+//   } catch (error) {
+//     console.error(error);
+//     // setError('Registration failed. Please try again later.');
+//   }
+// }
+
+async function handleSubmit(e) {
+  e.preventDefault();
+  e.stopPropagation();
+
+  if (
+    !name || !phoneNumber || !address || !email || !password || 
+    !passwordConfirmation || password !== passwordConfirmation || !role
+    ) {
+      return
     }
 
-    const data = await response.json();
-    // Assuming your Laravel API sends a verification email
-    alert('A verification email has been sent to your email address. Please check your inbox and follow the instructions to complete the registration process.');
-    window.location.replace('/admin'); // Redirect the user to the login page after registration
-  } catch (error) {
-    console.error(error);
-    // setError('Registration failed. Please try again later.');
+try {
+  const body = {
+    name,
+    phone_number: phoneNumber,
+    address,
+    email,
+    password,
+    password_confirmation: passwordConfirmation,
+    role_name: role
+  }
+    const res = await http.post("/register", body)
+    console.log(res)
+    localStorage.setItem('user', JSON.stringify(res.data.data.user))
+    localStorage.setItem('token', res.data.data.token)
+    navigate("/")
+    navigate(0)
+  } catch(e) {
+    if (e.response.data.errors) {
+      setErrors({
+        name: e.response.data.errors.name ? e.response.data.errors.name : [],
+        phoneNumber: e.response.data.errors.phoneNumber ? e.response.data.errors.phoneNumber : [],
+        address: e.response.data.errors.address ? e.response.data.errors.address : [],
+        email: e.response.data.errors.email ? e.response.data.errors.email : [],
+        password: e.response.data.errors.password
+          ? e.response.data.errors.password
+          : [],
+          passwordConfirmation: e.response.data.errors.password_confirmation
+          ? e.response.data.errors.password_confirmation
+          : [],
+        role: e.response.data.role ? e.response.data.role : []
+      })
+    } else {
+      alert(e.response.data.message)
+    }
   }
 }
 
+  function toggleShowPassword() {
+    setShowPassword(!showPassword);
+  }
 
   return (
     <div className="signup">
@@ -106,6 +162,9 @@ function Signup() {
                       <div className="password-input-container">
                         <span className="lock-icon"><FontAwesomeIcon icon={faUnlockKeyhole} /></span>
                         <input type="password" className="form-control password-input" placeholder="Password" value={password} onChange={e => setPassword(e.target.value)} required></input>
+                        <span className="password-toggle-icon" onClick={toggleShowPassword}>
+                          {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                        </span>
                       </div>
                     </div>
                     <div className="form-group mb-2">
@@ -113,6 +172,9 @@ function Signup() {
                       <div className="confirm-password-input-container">
                         <span className="lock-icon"><FontAwesomeIcon icon={faKey} /></span>
                         <input type="password" className="form-control confirm-password-input" placeholder="Confirm Password" value={passwordConfirmation} onChange={e => setPasswordConfirmation(e.target.value)} required></input>
+                        <span className="password-toggle-icon" onClick={toggleShowPassword}>
+                          {showPassword ? <FontAwesomeIcon icon={faEyeSlash} /> : <FontAwesomeIcon icon={faEye} />}
+                        </span>
                       </div>
                     </div>
                     <div className="form-group mb-2">
@@ -125,7 +187,7 @@ function Signup() {
                         </select>
                       </div>
                     </div>
-                    {role === 'student' && (
+                    {/* {role === 'student' && (
                       <>
                       <div className="form-group mb-2">
                         <label className="label"> Grade Level</label>
@@ -140,7 +202,7 @@ function Signup() {
                         </div>
                       </div>
                       </>
-                    )}
+                    )} */}
                     <div className="d-flex mb-4 mt-3 align-items-center">
                       <label className="checkbox-wrap checkbox-primary">
                         <input type="checkbox"required />

@@ -1,127 +1,203 @@
-import React, { useState } from 'react';
-import Sort from './AdminDashboard/Sort';
-import Filter from './AdminDashboard/FilterBook';
-import Search from './AdminDashboard/Search';
-import AddBook from './AdminDashboard/AddBook';
-import DeleteBook from './AdminDashboard/DeleteBook';
-import EditBook from './AdminDashboard/EditBook';
-import ChangeStatus from './AdminDashboard/ChangeStatus';
-import ExportToExcel from './AdminDashboard/ExportToExcel';
-import Pagination from './AdminDashboard/Pagination';
+import React, { useState, useMemo, useEffect } from "react";
+import { Container, Row, Col, Table, DropdownButton, Dropdown } from "react-bootstrap";
+import Sort from "./AdminDashboard/Sort";
+import Search from "./AdminDashboard/Search";
+import ExportToExcel from "./AdminDashboard/ExportToExcel";
+import Pagination from "./AdminDashboard/Pagination";
+import FilterBook from "./AdminDashboard/FilterBook";
+import '../Dashboard/AdminDashboard/Admin.css';
 
-export default function BorrowedTable({ borrowedBooks, onDelete, onEdit, onChangeStatus, onAdd, isAdmin }) {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState('');
-  const [sortType, setSortType] = useState('');
-  const [sortOrder, setSortOrder] = useState('');
+// Define the BorrowedTable component
+const BorrowedTable = ({ data = [], isAdmin }) => {
+  // Define state variables
+  const [searchTerm, setSearchTerm] = useState("");
+  const [sortColumn, setSortColumn] = useState(null);
+  const [sortDirection, setSortDirection] = useState(null);
   const [currentPage, setCurrentPage] = useState(1);
-  const [booksPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(5);
+  const [filterStatus, setFilterStatus] = useState(null);
 
-  function handleSort(type) {
-    if (type === sortType) {
-      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+  // Define event handlers
+  const handleSearch = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleSort = (columnName) => {
+    if (sortColumn === columnName) {
+      setSortDirection((dir) => (dir === "asc" ? "desc" : "asc"));
     } else {
-      setSortType(type);
-      setSortOrder('asc');
+      setSortColumn(columnName);
+      setSortDirection("asc");
     }
-  }
+  };
 
-  function handleDelete(book) {
-    onDelete(book);
-  }
+  const handleTitleDropdownSelect = (eventKey) => {
+    handleSort("title");
+    setSortDirection(eventKey === "A-Z" ? "asc" : "desc");
+  };
 
-  function handleEdit(book) {
-    onEdit(book);
-  }
+  const handleAuthorDropdownSelect = (eventKey) => {
+    handleSort("author");
+    setSortDirection(eventKey === "A-Z" ? "asc" : "desc");
+  };
 
-  function handleChangeStatus(book) {
-    onChangeStatus(book);
-  }
+  const handleFilter = (filterValue) => {
+    setFilterStatus(filterValue);
+  };
 
-  function handleAdd(book) {
-    onAdd(book);
-  }
+  // Define memoized data
+  const filteredData = useMemo(
+    () =>
+      data.filter(
+        (item) =>
+          searchTerm === "" ||
+          [
+            item.title,
+            item.author,
+            item.isbn,
+            item.borrower,
+            item.status
+          ].some((field) =>
+            field.toLowerCase().includes(searchTerm.toLowerCase())
+          )
+      ).filter(
+        (item) =>
+          !filterStatus || filterStatus === item.status
+      ),
+    [data, searchTerm, filterStatus]
+  );
 
-  const filteredBooks = (borrowedBooks ?? []).filter((book) => {
-  if (filterStatus === '') {
-    return true;
-  }
-  return book.status === filterStatus;
-});
+  const sortedData = useMemo(() => {
+    if (!sortColumn) {
+      return filteredData;
+    }
 
-  const sortedBooks = filteredBooks.sort((book1, book2) => {
-    if (sortType === '') {
+    const sorted = [...filteredData].sort((a, b) => {
+      const columnA = a[sortColumn].toLowerCase();
+      const columnB = b[sortColumn].toLowerCase();
+
+      if (columnA < columnB) {
+        return sortDirection === "asc" ? -1 : 1;
+      }
+      if (columnA > columnB) {
+        return sortDirection === "asc" ? 1 : -1;
+      }
       return 0;
-    }
-    let a, b;
-    if (sortType === 'title') {
-      a = book1.title.toLowerCase();
-      b = book2.title.toLowerCase();
-    } else if (sortType === 'author') {
-      a = book1.author.toLowerCase();
-      b = book2.author.toLowerCase();
-    } else if (sortType === 'status') {
-      a = book1.status.toLowerCase();
-      b = book2.status.toLowerCase();
-    }
-    if (a > b) {
-      return sortOrder === 'asc' ? 1 : -1;
-    } else if (a < b) {
-      return sortOrder === 'asc' ? -1 : 1;
-    } else {
-      return 0;
-    }
-  });
+    });
 
-  const isAdminView = isAdmin ? true : false;
+    return sorted;
+  }, [filteredData, sortColumn, sortDirection]);
 
-  const indexOfLastBook = currentPage * booksPerPage;
-  const indexOfFirstBook = indexOfLastBook - booksPerPage;
-  const currentBooks = sortedBooks.slice(indexOfFirstBook, indexOfLastBook);
+  const handleChangePage = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
-  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentItems = sortedData.slice(indexOfFirstItem, indexOfLastItem);
+
+  useEffect(() => {
+    fetch('/api/books')
+      .then(response => response.json())
+      .then(data => {
+        // set the due date property on each book object
+        const booksWithDuedate = data.map(book => {
+          const dueDate = new Date(book.borrowedDate);
+          dueDate.setDate(dueDate.getDate() + 14);
+          book.dueDate = dueDate.toLocaleDateString();
+          return book;
+        });
+        setData(booksWithDueDate);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+  }, []);
 
   return (
-    <div>
-      {isAdminView && <AddBook onSubmit={handleAdd} />}
-      <div>
-        <Search value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)} />
-        <Filter value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} />
-        <Sort type={sortType} order={sortOrder} onSort={handleSort} />
-      </div>
-      <table>
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Status</th>
-            {isAdminView && <th>Action</th>}
-          </tr>
-        </thead>
-        <tbody>
-          {currentBooks.map((book) => (
-            <tr key={book.id}>
-              <td>{book.title}</td>
-              <td>{book.author}</td>
-              <td>{book.status}</td>
-              {isAdminView && (
-                <td>
-                  <EditBook book={book} onEdit={handleEdit} />
-                  <ChangeStatus book={book} onChangeStatus={handleChangeStatus} />
-                  <DeleteBook book={book} onDelete={handleDelete} />
-                </td>
-              )}
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <Pagination
-        booksPerPage={booksPerPage}
-        totalBooks={sortedBooks.length}
-        paginate={paginate}
-        currentPage={currentPage}
-      />
-      {isAdminView && <ExportToExcel books={borrowedBooks} />}
-    </div>
+    <Container fluid>
+      <Col>
+          <h2 className="mb-3">Borrowed Books</h2>
+      </Col>
+      <br />
+        <Row className="justify-content-center">
+          <Col xs={12} md={12}>
+            <Search searchTerm={searchTerm} handleSearch={handleSearch} />
+          </Col>
+      </Row>
+      <br></br>
+      <Row>
+        <Col className="d-flex justify-content-end">
+          <ExportToExcel data={sortedData} />
+        </Col>
+      </Row>
+      <Row className="mb-3 align-items-center">
+  <Col xs={12} md={8}>
+    <FilterBook handleFilter={handleFilter} />
+  </Col>
+  <Col xs={6} md={2}>
+    <DropdownButton
+      title="Sort by Title"
+      variant="secondary"
+      onSelect={handleTitleDropdownSelect}
+      className="sort-filter-btn"
+    >
+      <Dropdown.Item eventKey="A-Z">A-Z</Dropdown.Item>
+      <Dropdown.Item eventKey="Z-A">Z-A</Dropdown.Item>
+    </DropdownButton>
+  </Col>
+  <Col xs={6} md={2}>
+    <DropdownButton
+      title="Sort by Author"
+      variant="secondary"
+      onSelect={handleAuthorDropdownSelect}
+      className="sort-filter-btn"
+    >
+      <Dropdown.Item eventKey="A-Z">A-Z</Dropdown.Item>
+      <Dropdown.Item eventKey="Z-A">Z-A</Dropdown.Item>
+    </DropdownButton>
+  </Col>
+</Row>
+      <Row>
+        <Col>
+          <Table striped bordered hover>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Author</th>
+                <th>ISBN</th>
+                <th>Borrower</th>
+                <th>Status</th>
+                <th>Due Date</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentItems.map((item) => (
+                <tr key={item.id}>
+                  <td>{item.title}</td>
+                  <td>{item.author}</td>
+                  <td>{item.isbn}</td>
+                  <td>{item.borrower}</td>
+                  <td>{item.status}</td>
+                  <td>{item.dueDate}</td>
+                </tr>
+              ))}
+            </tbody>
+          </Table>
+        </Col>
+      </Row>
+      <Row>
+        <Col>
+          <Pagination
+            itemsPerPage={itemsPerPage}
+            totalItems={sortedData.length}
+            currentPage={currentPage}
+            handleChangePage={handleChangePage}
+          />
+        </Col>
+      </Row>
+    </Container>
   );
-}
+};
+
+export default BorrowedTable;

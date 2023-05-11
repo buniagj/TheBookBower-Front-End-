@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import image from '../../../assets/Alexandrite.jpg';
+import image from '../../../assets/owl.png';
 import './Admin.css';
 
 function AdminDashboard() {

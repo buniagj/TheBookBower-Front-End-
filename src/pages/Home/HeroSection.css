@@ -1,0 +1,51 @@
+.hero-section .breadcrumb {
+    background-image: url(../../assets/homepage-banner.png);
+    padding: 80px 0 !important;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    /* margin-bottom: 0;
+    margin-top: 100px; */
+    position: relative;
+    height: 300px;
+  }
+
+.hero-section .breadcrumb h1 {
+    color: #5b4577;
+    text-align: center;
+    font-family: 'Pacifico', cursive;
+}
+
+.hero-section .breadcrumb p {
+    font-size: 20px;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.hero-section button {
+   margin: 20px 20px;
+   font-size: 20px;
+   color: #fff;
+   background-color: #5b4577 !important;
+   border-radius: 5px;
+   text-decoration: none;
+}
+
+.hero-section button:hover {
+    text-decoration: none;
+}
+
+.hero-section .ncta-btn {
+    background-color: #6c757d !important;
+}
+
+.category-page-title {
+color: #fff;
+font-size: 30px;
+font-family: 'Pacifico', cursive;
+text-align: center;
+background-color: transparent;
+margin-bottom: 40px;
+text-transform: capitalize;
+}

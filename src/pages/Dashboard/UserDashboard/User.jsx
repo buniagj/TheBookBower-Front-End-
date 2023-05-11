@@ -4,43 +4,35 @@ import BookTable from '../BookTable';
 import defaultProfilePhoto from '../../../assets/owl.png';
 import '../AdminDashboard/Admin.css';
 
-function UserDashboard() {
+function UserDashboard({ userId }) {
   const [user, setUser] = useState({});
   const [borrowedBooks, setBorrowedBooks] = useState([]);
   const [returnedBooks, setReturnedBooks] = useState([]);
   const [editMode, setEditMode] = useState(false);
   const [updatedUser, setUpdatedUser] = useState({ name: '', email: '' });
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false);
-  
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState('');
+
   useEffect(() => {
-    // Fetch user data from the server
-    axios.get('/api/user')
-      .then(response => {
-        setUser(response.data);
-        setUpdatedUser(response.data); // Set the initial value for updatedUser
+    Promise.all([
+      axios.get(`/api/user/${userId}`),
+      axios.get(`/api/user/${userId}/borrowed-books`),
+      axios.get(`/api/user/${userId}/returned-books`),
+    ])
+      .then(([userResponse, borrowedBooksResponse, returnedBooksResponse]) => {
+        setUser(userResponse.data);
+        setUpdatedUser(userResponse.data);
+        setBorrowedBooks(borrowedBooksResponse.data);
+        setReturnedBooks(returnedBooksResponse.data);
+        setIsLoading(false);
       })
       .catch(error => {
         console.error(error);
+        setError('Failed to fetch data');
+        setIsLoading(false);
       });
-
-    // Fetch user's borrowed books from the server
-    axios.get('/api/borrowed-books')
-      .then(response => {
-        setBorrowedBooks(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-
-    // Fetch user's returned books from the server
-    axios.get('/api/returned-books')
-      .then(response => {
-        setReturnedBooks(response.data);
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  }, []);
+  }, [userId]);
 
   function handleEdit() {
     setEditMode(true);
@@ -48,19 +40,24 @@ function UserDashboard() {
 
   function handleCancel() {
     setEditMode(false);
-    setUpdatedUser(user); // Reset updatedUser to the original value
+    setUpdatedUser(user);
   }
 
   function handleSave() {
-    // Update the user's information on the server
-    axios.put('/api/user', updatedUser)
-      .then(response => {
-        setUser(response.data);
-        setEditMode(false);
-      })
-      .catch(error => {
-        console.error(error);
-      });
+    if (window.confirm('Are you sure you want to update your information?')) {
+      setIsLoading(true);
+      axios.put(`/api/user/${userId}`, updatedUser)
+        .then(response => {
+          setUser(response.data);
+          setEditMode(false);
+          setIsLoading(false);
+        })
+        .catch(error => {
+          console.error(error);
+          setError('Failed to update user information');
+          setIsLoading(false);
+        });
+    }
   }
 
   function handleInputChange(event) {
@@ -73,7 +70,7 @@ function UserDashboard() {
     const formData = new FormData();
     formData.append('photo', event.target.files[0]);
 
-    axios.post('/api/user/photo', formData, {
+    axios.post(`/api/user/${userId}/photo`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data'
       }
@@ -84,6 +81,7 @@ function UserDashboard() {
       })
       .catch(error => {
         console.error(error);
+        setError('Failed to upload profile photo');
         setIsUploadingPhoto(false);
       });
   }
@@ -91,55 +89,64 @@ function UserDashboard() {
   return (
     <div>
       <h1>User Dashboard</h1>
-      <div className="user-info">
-        <div className="profile-photo">
-          <img
-            src={user.profile_photo_url || defaultProfilePhoto}
-            alt="Profile"
-            onClick={() => document.getElementById('photo-upload').click()}
-          />
-          <input
-            type="file"
-            id="photo-upload"
-            accept="image/*"
-            onChange={handlePhotoUpload}
-            style={{ display: 'none' }}
-          />
-          {isUploadingPhoto && <p>Uploading...</p>}
+      {isLoading ? (
+        <p>Loading...</p>
+      ) : error ? (
+        <p>{error}</p>
+      ) : (
+        <div>
+          <div className="user-info">
+            <div className="profile-photo">
+              <img
+                src={user.profile_photo_url || defaultProfilePhoto}
+                alt={`${user.name}'s profile`}
+              />
+              <input
+                type="file"
+                name="photo"
+                onChange={handlePhotoUpload}
+                disabled={isUploadingPhoto}
+              />
+              {isUploadingPhoto && <p>Uploading photo...</p>}
+            </div>
+            <div className="user-details">
+              {editMode ? (
+                <div>
+                  <input
+                    type="text" name="name"
+                    value={updatedUser.name}
+                    onChange={handleInputChange}
+                  />
+                  <input
+                    type="email"
+                    name="email"
+                    value={updatedUser.email}
+                    onChange={handleInputChange}
+                  />
+                  <div className="edit-buttons">
+                    <button onClick={handleSave}>Save</button>
+                    <button onClick={handleCancel}>Cancel</button>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <h2>{user.name}</h2>
+                  <p>{user.email}</p>
+                  <button onClick={handleEdit}>Edit</button>
+                </div>
+              )}
+            </div>
+          </div>
+          <div>
+            <h2>Borrowed Books</h2>
+            <BookTable books={borrowedBooks} />
+          </div>
+          <div>
+            <h2>Returned Books</h2>
+            <BookTable books={returnedBooks} />
+          </div>
         </div>
-        <div className="user-details">
-          {editMode ? (
-            <>
-              <label>
-                Name:
-                <input type="text" name="name" value={updatedUser.name} onChange={handleInputChange} required />
-              </label>
-              <label>
-                Email:
-                <input type="email" name="email" value={updatedUser.email} onChange={handleInputChange} required />
-              </label>
-              <div className="buttons">
-                <button onClick={handleCancel}>Cancel</button>
-                <button onClick={handleSave}>Save</button>
-              </div>
-            </>
-          ) : (
-            <>
-              <h2>{user.name}</h2>
-              <p>{user.email}</p>
-              <button onClick={handleEdit}>Edit</button>
-            </>
-          )}
-        </div>
-      </div>
-      <div className="borrowed-books">
-        <h2><i className="fas fa-book"></i> Borrowed Books</h2>
-        <BookTable books={borrowedBooks} />
-      </div>
-      <div className="returned-books">
-        <h2><i className="fas fa-history"></i> Returned Books</h2>
-        <BookTable books={returnedBooks} />
-      </div>
+      )}
     </div>
   );
 }

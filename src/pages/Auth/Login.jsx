@@ -66,9 +66,9 @@ function Login() {
       if (res.data.data.user.role_name === 'admin') {
         navigate('/admin');
       } else if (res.data.data.user.role_name === 'teacher') {
-        navigate('/teacher');
+        navigate('/');
       } else {
-        navigate('/student');
+        navigate('/');
       }
     } catch(e) {
       if (e.response.data.errors){

@@ -28,7 +28,7 @@ function ForgotPassword() {
   }
 
   return (
-    <div className="reset-password">
+    <div className="forgot-password">
       <Breadcrumb>
             <Container>
               <div className="category-page-title">Forgot Password</div>

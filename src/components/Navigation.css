@@ -6,6 +6,7 @@ Feel free to add your design. */
 
 .navbar-toggler {
     border: 0px !important;
+    background-color: transparent !important;
 }
 
 .navbar-toggler:focus,

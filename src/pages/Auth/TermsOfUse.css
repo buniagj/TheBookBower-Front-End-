@@ -1,0 +1,94 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+*::-webkit-scrollbar {
+  width: 5px;
+  background-color: #ddd
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #5b4577;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.1)
+}
+.terms-of-use .breadcrumb {
+  background-image: url(../../assets/breadcrumb-banner.png);
+  padding: 80px 0 !important;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+.terms-of-use .category-page-title {
+  color: #fff;
+  font-size: 30px;
+  font-family: 'Pacifico', cursive;
+  text-align: center;
+  background-color: transparent;
+  margin-bottom: 40px;
+  text-transform: capitalize;
+}
+
+.terms-of-use h6 {
+  color: #5b4577;
+  font-family: 'Pacifico', cursive !important;
+  font-size: 30px !important;
+  letter-spacing: 2px;
+  word-spacing: 4px;
+  text-align: center;
+  padding: 40px;
+}
+.terms-of-use-content {
+  width: 100%;
+  margin: auto;
+  margin-bottom: 20px !important;
+  font-family: 'Poppins', sans-serif;
+  font-size: 16px !important;
+  text-indent: 20px;
+  text-align: justify !important;
+}
+@media (max-width: 767.98px) {
+.terms-of-use .breadcrumb {
+  display: none !important;}
+.terms-of-use h6 {
+    margin-top: 20px;
+}
+}
+
+@media (min-width: 992px) {
+.terms-of-use .container {
+  max-width: 850px; }
+}
+
+.terms-of-use .accordion {
+    font-family: 'Poppins', sans-serif;
+}
+
+.terms-of-use .accordion .accordion-header button {
+  text-decoration: none;
+  color: #5b4577 !important;
+  font-weight: bold;
+  background-color: transparent !important;
+}
+
+.terms-of-use .accordion-button:focus {
+  border-color: #5b4577 !important;
+}
+
+.terms-of-use .accordion .accordion-body {
+    text-align: justify;
+    text-indent: 20px;
+}
+
+.terms-of-use .accordion-button:not(.collapsed)::after {
+    background-image: url(../../assets/accordion-active-button.png) !important;
+    transform: rotate(180deg)
+}  
+
+.terms-of-use .accordion-button:focus {
+    border-color: #5b4577 !important;
+}
+
+.terms-of-use .accordion-button:focus {
+    box-shadow: none !important;
+    border-color: rgba(0,0,0,.125) !important;
+}

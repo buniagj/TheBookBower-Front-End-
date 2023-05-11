@@ -1,5 +1,6 @@
 import React from 'react';
-import '../../../assets/owl.png';
+import { Link } from 'react-router-dom';
+import image from '../../../assets/owl.png';
 import './Admin.css';
 import { Link } from "react-router-dom"
 

@@ -208,3 +208,22 @@ h1 {
   max-width: 100%;
   max-height: 150px;
 }
+
+.notification-bell {
+  position: relative;
+}
+
+.notification-count {
+  display: inline-block;
+  position: absolute;
+  top: -8px;
+  right: -8px;
+  background-color: red;
+  color: white;
+  border-radius: 50%;
+  width: 16px;
+  height: 16px;
+  font-size: 10px;
+  text-align: center;
+  line-height: 16px;
+}

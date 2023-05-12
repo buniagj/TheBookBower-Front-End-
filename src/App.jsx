@@ -3,7 +3,7 @@ import { BrowserRouter as Router } from "react-router-dom";
 import AppRoutes from "./Routes";
 import "./App.css";
 
-const App = () => {
+const App = ({ notificationCount }) => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
@@ -21,7 +21,7 @@ const App = () => {
   return (
     <Router>
       <div className="App">
-        <AppRoutes user={user} handleLogout={handleLogout} />
+        <AppRoutes user={user} handleLogout={handleLogout} notificationCount={notificationCount} />
       </div>
     </Router>
   );

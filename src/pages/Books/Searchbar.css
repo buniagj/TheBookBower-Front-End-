@@ -41,13 +41,12 @@ li {
 }
 
 .category-button {
-  letter-spacing: 0.5rem;
-  text-align: center;
+  text-align: center !important;
   padding: 5px;
   border: none;
   border-radius: 50%;
-  background-color: #fff;
-  color: #333;
+  background-color: #5b4577 !important;
+  color: #fff !important;
   font-size: 16px;
   margin: 5px;
   transition: all 0.2s ease-in-out;
@@ -58,7 +57,7 @@ li {
   align-items: center;
   justify-content: center;
   font-weight: bold;
-  font-family: cursive;
+  font-family: 'Poppins', sans-serif;
 }
 
 .category-button:hover {
@@ -75,17 +74,23 @@ li {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  
 }
 
 .s-bar {
   width: 50vh;
   margin-right: -1rem;
   border-radius: 20%;
-  border: solid 3px purple;
+  border: solid 3px #5b4577;
 }
 
 .s-button  {
-  border-radius: 30%;
+  background-color: #5b4577 !important;
+  color: #fff !important;
+  margin-left: -99px;
+  border-radius: 25%;
   width: 12vh;
+}
+@media (max-width: 767.98px) {
+.s-bar {
+  margin: 100px !important;}
 }

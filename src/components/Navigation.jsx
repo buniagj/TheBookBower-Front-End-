@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import UserDashboardNavbar from '../pages/Dashboard/UserDashboard/UserDashboardNavbar';
+import AdminDashboardNavbar from '../pages/Dashboard/AdminDashboard/AdminNavbar';
 import Logo from '../assets/the-book-bower-logo.png';
 import './Navigation.css';
 import http from "../lib/https" //Added
@@ -38,10 +39,13 @@ function Navigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-          <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
             <Nav.Link as={Link} to="/bookspage">Books</Nav.Link>
-            {isLoggedIn && (
+            {isAdmin && (
+              <Nav.Link as={Link} to="/admin">Admin Dashboard</Nav.Link>
+            )}
+            {isLoggedIn && !isAdmin && (
               <>
                 <Nav.Link as={Link} to="/searchbar">Search Books</Nav.Link>
                 <Nav.Link as={Link} to={isAdmin.role_name === 'admin' ? '/admin' : '/user'}>Dashboard</Nav.Link>
@@ -62,7 +66,8 @@ function Navigation() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      {isLoggedIn && <UserDashboardNavbar />}
+      {isLoggedIn && !isAdmin && <UserDashboardNavbar />}
+      {isLoggedIn && isAdmin && <AdminDashboardNavbar />}
     </Navbar>
   );
 }

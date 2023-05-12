@@ -51,17 +51,17 @@ export default function UserList() {
   //     });
   // }, []);
 
-  // const sortUsers = (type) => {
-  //   setSortType(type);
-  // };
+  const sortUsers = (type) => {
+    setSortType(type);
+  };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  // const handlePagination = (pageNumber) => {
-    // setCurrentPage(pageNumber);
-  // };
+  const handlePagination = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;

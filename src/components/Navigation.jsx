@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Nav, Navbar, Container } from 'react-bootstrap';
 import UserDashboardNavbar from '../pages/Dashboard/UserDashboard/UserDashboardNavbar';
+import AdminDashboardNavbar from '../pages/Dashboard/AdminDashboard/AdminNavbar';
 import Logo from '../assets/the-book-bower-logo.png';
 import './Navigation.css';
 import http from "../lib/https" //Added
@@ -61,7 +62,7 @@ function Navigation() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      {isLoggedIn && <UserDashboardNavbar />}
+      {isLoggedIn && isAdmin ? <AdminDashboardNavbar /> : <UserDashboardNavbar />}
     </Navbar>
   );
 }

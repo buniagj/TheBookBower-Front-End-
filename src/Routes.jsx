@@ -28,7 +28,7 @@ import PrivacyPolicy from './pages/Auth/PrivacyPolicy';
 import TermsOfUse from './pages/Auth/TermsOfUse';
 import EditProfile from './pages/Dashboard/UserDashboard/EditProfile';
 
-const AppRoutes = ({ user }) => {
+const AppRoutes = ({ user , admin}) => {
   const isAdmin = user?.role === "admin";
 
   return (
@@ -46,7 +46,7 @@ const AppRoutes = ({ user }) => {
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/user" element={<UserDashboard user={user} />} />
-        <Route exact path="/admin" element={<AdminDashboard user={user} />} />
+        <Route exact path="/admin" element={<AdminDashboard user={admin} />} />
         <Route exact path="/forgotpassword" element={<ForgotPassword />} />
         <Route exact path="/borrowedtable" element={<BorrowedTable />} />
         <Route exact path="/returnedtable" element={<ReturnedTable />} />

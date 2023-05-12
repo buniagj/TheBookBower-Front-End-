@@ -108,12 +108,6 @@ h1 {
   text-align: center;
 }
 
-.ant-modal-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
-}
-
 .ant-btn {
   margin-right: 10px;
 }
@@ -163,10 +157,15 @@ h1 {
   align-items: center;
 }
 
+.form-group {
+  text-align: left !important;
+}
+
 .ant-modal-title {
   font-size: 20px;
   font-weight: 700;
   margin-right: 10px !important;
+  color: #4f245b !important;
 }
 
 .ant-modal-close {
@@ -201,6 +200,8 @@ h1 {
 
 .edit-input {
   width: 300px;
+  color: #4f245b !important;
+  text-align: center;
 }
 
 .upload-photo {

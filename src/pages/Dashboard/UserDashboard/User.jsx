@@ -8,7 +8,7 @@ import EditProfileForm from './EditProfile';
 import './User.css';
 import { Modal } from 'antd';
 
-function UserDashboard({ user }) {
+function UserDashboard({ user, isAdmin }) {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const isStudent = user && user.role_name === 'student';
   const isTeacher = user && user.role_name === 'teacher';
@@ -48,9 +48,11 @@ function UserDashboard({ user }) {
             {isStudent && <p>{user.grade} - {user.section}</p>}
             {isTeacher && <p>Teacher</p>}
           </div>
-          <button className="edit" onClick={handleEditProfile}>
-            <FontAwesomeIcon icon={faPencilAlt} className="edit-button" />
-          </button>
+          {!isAdmin && (
+            <button className="edit" onClick={handleEditProfile}>
+              <FontAwesomeIcon icon={faPencilAlt} className="edit-button" />
+            </button>
+          )}
         </div>
       )}
       <div className="user-nav-links">

@@ -52,7 +52,7 @@ return (
 <form className="edit-profile-form" onSubmit={handlePromptBeforeSubmit}>
 <h2>Edit Profile</h2>
 <div className="form-group">
-<label htmlFor="name">Name:</label>
+<label htmlFor="name" className="ant-modal-title"> Full  Name:</label>
 <input
 type="text"
 id="name"
@@ -63,7 +63,7 @@ onChange={(event) => setName(event.target.value)}
 />
 </div>
 <div className="form-group">
-<label htmlFor="phone_number">Phone Number:</label>
+<label htmlFor="phone_number" className="ant-modal-title">Phone Number:</label>
 <input
 type="tel"
 id="phone_number"
@@ -74,7 +74,7 @@ onChange={(event) => setPhoneNumber(event.target.value)}
 />
 </div>
 <div className="form-group">
-<label htmlFor="email">Email:</label>
+<label htmlFor="email" className="ant-modal-title">Email Address:</label>
 <input
 type="email"
 id="email"
@@ -85,7 +85,7 @@ onChange={(event) => setEmail(event.target.value)}
 />
 </div>
 <div className="form-group">
-<label htmlFor="address">Address:</label>
+<label htmlFor="address" className="ant-modal-title"> Complete Address:  </label>
 <textarea
 id="address"
 className="edit-input"
@@ -95,11 +95,11 @@ onChange={(event) => setAddress(event.target.value)}
 ></textarea>
 </div>
 <div className="form-group">
-<label htmlFor="photo">Photo:</label>
+<label htmlFor="photo" className="ant-modal-title">Photo:</label>
 <input type="file" id="photo" name="photo" onChange={handleFileChange} />
 {photo && <img src={photo} className="upload-photo" alt="user profile" />}
 </div>
-<div className="form-group">
+<div>
 <button type="submit" className="btn btn-primary" disabled={isSubmitting}>
 {isSubmitting ? 'Submitting...' : 'Save Changes'}
 </button>

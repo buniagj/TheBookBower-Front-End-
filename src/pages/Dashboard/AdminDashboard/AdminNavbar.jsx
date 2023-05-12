@@ -5,7 +5,7 @@ import { BiUser } from 'react-icons/bi';
 import './AdminNavbar.css'; 
 
 function AdminDashboardNavbar() {
-  console.log('Rendering Amin DashboardNavbar');
+  console.log('Rendering Admin DashboardNavbar');
   return (
     <nav>
       <ul className="icon-row">

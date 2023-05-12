@@ -33,9 +33,6 @@ function Navigation() {
             <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
             <Nav.Link as={Link} to="/bookspage">Books</Nav.Link>
-            {isAdmin && (
-              <Nav.Link as={Link} to="/admin">Admin Dashboard</Nav.Link>
-            )}
             {isLoggedIn && !isAdmin && (
               <>
                 <Nav.Link as={Link} to="/searchbar">Search Books</Nav.Link>

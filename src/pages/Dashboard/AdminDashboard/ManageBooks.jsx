@@ -8,8 +8,10 @@ import AvailableStock from './AvailableStock';
 import DeleteBook from './DeleteBook';
 import EditBook from './EditBook';
 import AddBook from './AddBook';
-import ExportToExcel from './ExportToExcel';
+// import ExportToExcel from './ExportToExcel';
 import Pagination from './Pagination';
+import http from '../../../lib/https'
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function ManageBook() {
   const [books, setBooks] = useState([]);
@@ -23,15 +25,31 @@ export default function ManageBook() {
   const [showEditBookForm, setShowEditBookForm] = useState(false);
   const [showDeleteBookForm, setShowDeleteBookForm] = useState(false);
 
-  useEffect(() => {
-    axios.get('/api/books')
-      .then(response => {
-        setBooks(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+  async function getBooks(page = 1) {
+    const url = `/books?page=${page}`
+    const res = await http.get(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    console.log(res.data.data)
+    setBooks(res.data.data)
+    // setMeta(res.data.meta)
+  }
+  useEffect(() =>{
+    getBooks()
+    return
+  }, []) 
+
+  // useEffect(() => {
+  //   axios.get('/api/books')
+  //     .then(response => {
+  //       setBooks(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }, []);
 
   const sortBooks = (type) => {
     setSortType(type);
@@ -49,15 +67,15 @@ export default function ManageBook() {
   const indexOfFirstBook = indexOfLastBook - booksPerPage;
   const currentBooks = books.slice(indexOfFirstBook, indexOfLastBook);
 
-  const filteredBooks = currentBooks.filter(book =>
-    book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    book.author.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredBooks = currentBooks.filter(book =>
+  //   book.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+  //   book.author.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-  const sortedBooks = filteredBooks.sort((a, b) => {
-    const isReversed = (sortType === 'asc') ? 1 : -1;
-    return isReversed * a.title.localeCompare(b.title);
-  });
+  // const sortedBooks = filteredBooks.sort((a, b) => {
+  //   const isReversed = (sortType === 'asc') ? 1 : -1;
+  //   return isReversed * a.title.localeCompare(b.title);
+  // });
 
   const editBook = (book) => {
     setEditing(true);
@@ -101,10 +119,10 @@ export default function ManageBook() {
           </tr>
         </thead>
         <tbody>
-  {sortedBooks.map(book => (
+  {books.map(book => (
     <tr key={book.id}>
-      <td>{book.title}</td>
-      <td>{book.author}</td>
+      <td>{book.attributes.title}</td>
+      <td>{book.attributes.author}</td>
       <td>{book.price}</td>
       <td><ChangeStatus book={book} /></td>
       <td>{book.availableStock}</td>
@@ -125,9 +143,9 @@ return (
 <h1>Manage Books</h1>
 <div className="actions">
 <Search type="books" onChange={handleSearchChange} />
-<FilterBooks books={books} setBooks={setBooks} />
+{/* <FilterBooks books={books} setBooks={setBooks} /> */}
 <button onClick={addBook}>Add Book</button>
-<ExportToExcel books={books} />
+{/* <ExportToExcel books={books} /> */}
 </div>
 {renderBookTable()}
 <Pagination

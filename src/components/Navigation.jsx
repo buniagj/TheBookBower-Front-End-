@@ -8,7 +8,8 @@ import './Navigation.css';
 
 function Navigation() {
   const isLoggedIn = !!localStorage.getItem('token');
-  const isAdmin = localStorage.getItem('role_name') === 'admin';
+  const isAdmin = JSON.parse(window.localStorage.getItem('user'))
+  // console.log(isAdmin)
   const [editMode, setEditMode] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();
@@ -23,64 +24,42 @@ function Navigation() {
   };
 
   return (
-    <>
-      <Navbar bg="light" expand="lg" fixed="top">
-        <Container>
-          <Navbar.Brand as={Link} to="/">
-            <img src={Logo} alt="the-book-bower.png" />
-          </Navbar.Brand>
-          <Navbar.Toggle aria-controls="basic-navbar-nav" />
-          <Navbar.Collapse id="basic-navbar-nav">
-            <Nav className="mr-auto">
-              <Nav.Link as={Link} to="/">
-                Home
-              </Nav.Link>
-              <Nav.Link as={Link} to="/about">
-                About
-              </Nav.Link>
-              <Nav.Link as={Link} to="/bookspage">
-                Books
-              </Nav.Link>
-            </Nav>
-            <Nav className="justify-content-end">
-              {isLoggedIn ? (
-                <>
-                  <Nav.Link className="nav-link-custom" onClick={() => setShowLogoutModal(true)}>
-                    Logout
-                  </Nav.Link>
-                </>
-              ) : (
-                <>
-                  <Nav.Link className="nav-link-custom" as={Link} to="/login">
-                    Login
-                  </Nav.Link>
-                  <Nav.Link className="nav-link-custom" as={Link} to="/signup">
-                    Sign Up
-                  </Nav.Link>
-                </>
-              )}
-            </Nav>
-          </Navbar.Collapse>
-        </Container>
-        {isLoggedIn && isAdmin && <AdminDashboardNavbar />}
-        {isLoggedIn && !isAdmin && <UserDashboardNavbar />}
-      </Navbar>
-
-      <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)}>
-        <Modal.Header closeButton>
-          <Modal.Title>Logout</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>Are you sure you want to log out?</Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={() => setShowLogoutModal(false)}>
-            Cancel
-          </Button>
-          <Button variant="primary" onClick={handleLogout}>
-            Logout
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </>
+    <Navbar bg="light" expand="lg"  fixed="top">
+      <Container>
+        <Navbar.Brand as={Link} to="/"><img src={Logo}alt="the-book-bower.png" /></Navbar.Brand>
+        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+        <Navbar.Collapse id="basic-navbar-nav">
+          <Nav className="mr-auto">
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/about">About</Nav.Link>
+            <Nav.Link as={Link} to="/bookspage">Books</Nav.Link>
+            {isAdmin && (
+              <Nav.Link as={Link} to="/admin">Admin Dashboard</Nav.Link>
+            )}
+            {isLoggedIn && !isAdmin && (
+              <>
+                <Nav.Link as={Link} to="/searchbar">Search Books</Nav.Link>
+                <Nav.Link as={Link} to={isAdmin.role_name === 'admin' ? '/admin' : '/user'}>Dashboard</Nav.Link>
+              </>
+            )}
+          </Nav>
+          <Nav>
+            {isLoggedIn ? (
+              <>
+                <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
+              </>
+            ) : (
+              <>
+                <Nav.Link as={Link} to="/login">Login</Nav.Link>
+                <Nav.Link as={Link} to="/signup">Sign Up</Nav.Link>
+              </>
+            )}
+          </Nav>
+        </Navbar.Collapse>
+      </Container>
+      {isLoggedIn && !isAdmin && <UserDashboardNavbar />}
+      {isLoggedIn && isAdmin && <AdminDashboardNavbar />}
+    </Navbar>
   );
 }
 

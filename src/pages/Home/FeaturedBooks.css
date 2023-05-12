@@ -168,7 +168,7 @@
   background-color: #eee1ff;
   color: #5b4577;
   border-bottom: 0.5px solid #5b4577 !important;
-  padding: 0 50px;
+  padding: 10px !important;
   display: flex;
   padding-left: 10% !important;  
 }
@@ -176,11 +176,11 @@
 .modal-header .btn-close {
   background: transparent url(../../assets/icon-close.png) !important;
   background-repeat: no-repeat;
-  background-position: center; background-size: cover;
-  background-size: contain;
+  background-position: center;
   width: 39px !important;
   height: 39px !important;
   transition: all .5s ease-in-out;
+  margin: 8px !important;
 }
 
 .modal-title {
@@ -219,7 +219,15 @@
 
 .modal-footer .btn {
   font-family: 'Poppins', sans-serif;
-  color: #fcf5e7;
+  color: #fff;
+  background-color: #6c757d !important;
   letter-spacing: 2px;
   font-size: 15px !important;
+}
+
+@media (max-width: 767.98px) {
+  .modal-header .btn-close {
+  width: 55px !important;
+  height: 39px !important;
+  }
 }

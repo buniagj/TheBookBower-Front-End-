@@ -7,8 +7,11 @@ import EditUsers from './EditUsers';
 import AddUsers from './AddUsers';
 import DeleteUsers from './DeleteUsers';
 import ExportToExcel from './ExportToExcel';
+import http from '../../../lib/https'
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function UserList() {
+  const { id } = useParams();
   const [users, setUsers] = useState([]);
   const [sortType, setSortType] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
@@ -19,28 +22,46 @@ export default function UserList() {
   const [showAddUserForm, setShowAddUserForm] = useState(false);
   const [showEditUserForm, setShowEditUserForm] = useState(false);
   const [showDeleteUserForm, setShowDeleteUserForm] = useState(false);
+  const [meta, setMeta] = useState({});
 
-  useEffect(() => {
-    axios.get('/api/users')
-      .then(response => {
-        setUsers(response.data);
-      })
-      .catch(error => {
-        console.log(error);
-      });
-  }, []);
+  async function getUsers(page = 1) {
+    const url = `/users?page=${page}`
+    const res = await http.get(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    console.log(res.data.meta)
+    setUsers(res.data.data)
+    setMeta(res.data.meta)
+  } 
 
-  const sortUsers = (type) => {
-    setSortType(type);
-  };
+  useEffect(() =>{
+    getUsers()
+    return
+  }, [])
+
+  // useEffect(() => {
+  //   axios.get('api/users')
+  //     .then(response => {
+  //       setUsers(response.data);
+  //     })
+  //     .catch(error => {
+  //       console.log(error);
+  //     });
+  // }, []);
+
+  // const sortUsers = (type) => {
+  //   setSortType(type);
+  // };
 
   const handleSearch = (event) => {
     setSearchTerm(event.target.value);
   };
 
-  const handlePagination = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  // const handlePagination = (pageNumber) => {
+    // setCurrentPage(pageNumber);
+  // };
 
   const indexOfLastUser = currentPage * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
@@ -89,22 +110,29 @@ export default function UserList() {
       <table>
         <thead>
           <tr>
-            <th>Name <Sort sortType={sortType} onSort={sortUsers} /></th>
+            {/* <th>Name <Sort sortType={sortType} onSort={sortUsers} /></th> */}
+            <th>Name</th>
             <th>Email</th>
+            <th>Phone Number</th>
+            <th>Role</th>
             <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {sortedUsers.map(user => (
+          {users.map(user => {
+            return (
             <tr key={user.id}>
               <td>{user.name}</td>
               <td>{user.email}</td>
+              <td>{user.phone_number}</td>
+              <td>{user.role_name}</td>
               <td>
                 <button onClick={() => editUser(user)}>Edit</button>
                 <button onClick={() => deleteUser(user)}>Delete</button>
               </td>
             </tr>
-          ))}
+          )
+          })}
         </tbody>
       </table>
     );
@@ -113,16 +141,21 @@ export default function UserList() {
   return (
     <div>
       <h2>Users</h2>
-      <FilterUsers searchTerm={searchTerm} onSearch={handleSearch} />
+      {/* <FilterUsers searchTerm={searchTerm} onSearch={handleSearch} /> */}
       <button onClick={addUser}>Add User</button>
-      <ExportToExcel users={users} />
-      {renderUserTable()}
-      <Pagination
-     usersPerPage={usersPerPage}
-     totalUsers={users.length}
-     currentPage={currentPage}
-     onPageChange={handlePagination}
-      />
+      {/* <ExportToExcel users={users} /> */}
+      <div>
+        {renderUserTable()}
+      </div>
+      <div>
+        {meta.links && (
+          <Pagination
+          links={meta.links}
+          active={meta.current_page}
+          getUsers={getUsers}
+          />
+        )}
+      </div>
       {showAddUserForm && <AddUsers onClose={closeAddUserForm} />}
       {showEditUserForm && <EditUsers user={currentUser} onClose={closeEditUserForm} />}
       {editing && <EditUsers user={currentUser} onClose={closeEditUserForm} />}

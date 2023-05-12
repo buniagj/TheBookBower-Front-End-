@@ -78,11 +78,15 @@ try {
     role_name: role
   }
     const res = await http.post("/register", body)
-    console.log(res)
     localStorage.setItem('user', JSON.stringify(res.data.data.user))
     localStorage.setItem('token', res.data.data.token)
-    navigate("/")
-    navigate(0)
+    if (res.data.data.user.role_name === 'admin') {
+      navigate('/admin');
+    } else if (res.data.data.user.role_name === 'teacher') {
+      navigate('/');
+    } else {
+      navigate('/');
+    }
   } catch(e) {
     if (e.response.data.errors) {
       setErrors({

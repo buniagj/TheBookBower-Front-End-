@@ -1,3 +1,16 @@
+nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+nav ul li {
+  margin: 0;
+}
+
 nav ul li a {
   display: flex;
   align-items: center;
@@ -46,9 +59,50 @@ nav ul li a .sr-only {
   align-items: center;
   list-style: none;
   padding: 0;
-  margin-right: 2rem;
+  margin: 0;
 }
 
 .icon-row li {
   margin: 0 10px;
+}
+
+.logout-btn {
+  margin-bottom: -15px !important;
+  font-size: 1.5rem;
+  color: #8517a0;
+}
+
+.navbar-text {
+  font-family: 'Pacifico', cursive;
+  font-size: 1.3rem !important;
+  color: #632872 !important;
+  margin-right: 10rem;
+}
+
+@media screen and (max-width: 768px) {
+  nav ul {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    padding: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    z-index: 1;
+  }
+
+  nav ul li {
+    display: block;
+    margin-bottom: 10px;
+  }
+
+  .navbar-text {
+    font-size: 1rem;
+    margin-left: -10px;
+  }
+
+  .icon-row li {
+    margin: 0 5px;
+  }
 }

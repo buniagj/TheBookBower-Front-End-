@@ -3,19 +3,17 @@ import { Link, useNavigate } from 'react-router-dom';
 import { Nav, Navbar, Container, Modal, Button } from 'react-bootstrap';
 import UserDashboardNavbar from '../pages/Dashboard/UserDashboard/UserDashboardNavbar';
 import AdminDashboardNavbar from '../pages/Dashboard/AdminDashboard/AdminNavbar';
-import { MdExitToApp } from 'react-icons/md'
+import { MdExitToApp } from 'react-icons/md';
 import Logo from '../assets/the-book-bower-logo.png';
 import './Navigation.css';
 
 function Navigation() {
-  const isLoggedIn = !!localStorage.getItem('token');
-  const isAdmin = JSON.parse(window.localStorage.getItem('user'));
+  const { token, user } = localStorage;
+  const isLoggedIn = !!token;
+  const isAdmin = user && JSON.parse(user);
   const [editMode, setEditMode] = useState(false);
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const navigate = useNavigate();
-
-  console.log('isAdmin:', isAdmin);
-  console.log(localStorage.getItem('token'));
 
   const handleLogout = () => {
     localStorage.removeItem('token');
@@ -42,7 +40,7 @@ function Navigation() {
             <Nav.Link as={Link} to="/bookspage">
               Books
             </Nav.Link>
-            {isLoggedIn && !isAdmin && (
+            {isLoggedIn && !isAdmin ? (
               <>
                 <Nav.Link as={Link} to="/searchbar">
                   Search Books
@@ -54,15 +52,17 @@ function Navigation() {
                   Dashboard
                 </Nav.Link>
               </>
-            )}
+            ) : null}
           </Nav>
-          {isLoggedIn && (
+          {isLoggedIn ? (
             <Nav className="ml-auto">
-              <span className="navbar-text">Welcome, {isAdmin.name}!</span>
-              <div className="nav-spacer"></div>
+              {isAdmin ? (
+                <span className="navbar-text">
+                  Welcome, {isAdmin.name || 'Admin'}!
+                </span>
+              ) : null}
             </Nav>
-          )}
-          {!isLoggedIn && (
+          ) : (
             <Nav className="ml-auto">
               <Nav.Link as={Link} to="/login">
                 Login
@@ -72,26 +72,34 @@ function Navigation() {
               </Nav.Link>
             </Nav>
           )}
+          {isLoggedIn && !isAdmin ? <UserDashboardNavbar /> : null}
+          {isLoggedIn && isAdmin ? <AdminDashboardNavbar /> : null}
+          {isLoggedIn ? (
+            <Nav className="logout-btn">
+              <Nav.Link onClick={() => setShowLogoutModal(true)}>
+                <MdExitToApp />
+              </Nav.Link>
+            </Nav>
+          ) : null}
         </Navbar.Collapse>
-        {isLoggedIn && !isAdmin && <UserDashboardNavbar />}
-        {isLoggedIn && isAdmin && <AdminDashboardNavbar />}
-        <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)}>
-          <Modal.Header closeButton>
-            <Modal.Title>Logout</Modal.Title>
-          </Modal.Header>
-          <Modal.Body>Are you sure you want to logout?</Modal.Body>
-          <Modal.Footer>
-            <Button variant="secondary" onClick={() => setShowLogoutModal(false)}>
-              Cancel
-            </Button>
-            <Button variant="primary" onClick={handleLogout}>
-              Logout
-            </Button>
-          </Modal.Footer>
-        </Modal>
       </Container>
+      <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>Logout</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to logout?</Modal.Body>
+        <Modal.Footer>
+          <Button variant="secondary" onClick={() => setShowLogoutModal(false)}>
+            Cancel
+          </Button>
+          <Button variant="primary" onClick={handleLogout}>
+            Logout
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </Navbar>
   );
 }
+
 
 export default Navigation;

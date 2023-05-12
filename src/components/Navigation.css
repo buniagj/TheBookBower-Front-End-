@@ -22,10 +22,16 @@ Feel free to add your design. */
 }
 
 .nav-link {
-  color: #5b4577 !important;
-  font-family: 'Poppins', sans-serif;
+  color: #8517a0 !important;
+  font-family: 'Poppins', sans-serif !important;
   margin-right: 50px !important;
   text-decoration: none;
+}
+
+.logout-btn {
+    margin-top: -19px;
+    font-size: 1.5rem;
+    color: #8517a0;
 }
 
 

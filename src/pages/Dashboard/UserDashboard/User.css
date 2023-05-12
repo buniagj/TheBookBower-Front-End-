@@ -98,6 +98,16 @@ h1 {
   cursor: pointer;
 }
 
+.navbar-text {
+  font-family: 'Pacifico', cursive;
+}
+
+.logout-btn {
+  margin-top: -19px;
+  font-size: 1.5rem;
+  color: #8517a0;
+}
+
 .ant-modal-content {
   background-color: #fff;
   border-radius: 5px;

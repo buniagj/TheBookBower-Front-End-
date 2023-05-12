@@ -38,13 +38,16 @@ function Navigation() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="mr-auto">
-          <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
             <Nav.Link as={Link} to="/about">About</Nav.Link>
             <Nav.Link as={Link} to="/bookspage">Books</Nav.Link>
-            {isLoggedIn && (
+            {isAdmin && (
+              <Nav.Link as={Link} to="/admin">Admin Dashboard</Nav.Link>
+            )}
+            {isLoggedIn && !isAdmin && (
               <>
                 <Nav.Link as={Link} to="/searchbar">Search Books</Nav.Link>
-                <Nav.Link as={Link} to={isAdmin ? '/admin' : '/user'}>Dashboard</Nav.Link>
+                <Nav.Link as={Link} to="/user">User Dashboard</Nav.Link>
               </>
             )}
           </Nav>
@@ -62,7 +65,8 @@ function Navigation() {
           </Nav>
         </Navbar.Collapse>
       </Container>
-      {isLoggedIn && isAdmin ? <AdminDashboardNavbar /> : <UserDashboardNavbar />}
+      {isLoggedIn && !isAdmin && <UserDashboardNavbar />}
+      {isLoggedIn && isAdmin && <AdminDashboardNavbar />}
     </Navbar>
   );
 }

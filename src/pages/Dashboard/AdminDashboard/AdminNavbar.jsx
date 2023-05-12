@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { BsBell, BsGear } from 'react-icons/bs';
+import { BiUser } from 'react-icons/bi'; 
 import './AdminNavbar.css'; 
 
 function AdminDashboardNavbar() {

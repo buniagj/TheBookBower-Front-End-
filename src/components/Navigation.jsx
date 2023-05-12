@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom" //Added
 
 function Navigation() {
   const isLoggedIn = !!localStorage.getItem('token');
-  const isAdmin = localStorage.getItem('role') === 'admin';
+  const isAdmin = JSON.parse(window.localStorage.getItem('user'))
+  // console.log(isAdmin)
   const [editMode, setEditMode] = useState(false);
   const navigate = useNavigate();
 
@@ -43,7 +44,7 @@ function Navigation() {
             {isLoggedIn && (
               <>
                 <Nav.Link as={Link} to="/searchbar">Search Books</Nav.Link>
-                <Nav.Link as={Link} to={isAdmin ? '/admin' : '/user'}>Dashboard</Nav.Link>
+                <Nav.Link as={Link} to={isAdmin.role_name === 'admin' ? '/admin' : '/user'}>Dashboard</Nav.Link>
               </>
             )}
           </Nav>

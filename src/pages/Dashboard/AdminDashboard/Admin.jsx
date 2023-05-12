@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import image from '../../../assets/owl.png';
 import './Admin.css';
-import { Link } from "react-router-dom"
 
 function AdminDashboard() {
   return (

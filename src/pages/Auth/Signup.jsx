@@ -83,9 +83,9 @@ try {
     if (res.data.data.user.role_name === 'admin') {
       navigate('/admin');
     } else if (res.data.data.user.role_name === 'teacher') {
-      navigate('/');
+      navigate('/user');
     } else {
-      navigate('/');
+      navigate('/user');
     }
   } catch(e) {
     if (e.response.data.errors) {

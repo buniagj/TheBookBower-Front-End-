@@ -4,6 +4,11 @@
   justify-content: center;
 }
 
+h1 {
+  text-align: center;
+  color: #5f1d91;
+}
+
 .card {
   display: flex;
   flex-direction: column;
@@ -11,13 +16,13 @@
   justify-content: center;
   margin: 10px;
   padding: 10px;
-  border: 1px solid gray;
+  border: 1px solid #5f1d91;
   border-radius: 10px;
   width: 200px;
   height: 200px;
   text-align: center;
   text-decoration: none;
-  color: black;
+  color: #5f1d91;
   font-size: 16px;
 }
 

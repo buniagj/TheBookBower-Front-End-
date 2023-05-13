@@ -9,7 +9,7 @@ function Footer() {
         <a href="https://www.twitter.com"><FaTwitter /></a>
         <a href="https://www.instagram.com"><FaInstagram /></a>
       </div>
-      <div className="container">
+      <div className="footer-container">
         <p>© 2023 The Book Bower. All rights reserved.</p>
       </div>
     </footer>

@@ -44,43 +44,47 @@ function Login() {
   //   }
   // }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    e.stopPropagation();
+ async function handleSubmit(e) {
+  e.preventDefault();
+  e.stopPropagation();
 
-    if (
-      !email || !password
-    ) {
-      return
+  if (
+    !email || !password
+  ) {
+    return
+  }
+
+  try {
+    const body = {
+      email,
+      password
     }
+    const res = await http.post("/login", body)
+    localStorage.setItem('user', JSON.stringify(res.data.data.user))
+    localStorage.setItem('token', res.data.data.token)
 
-    try {
-      const body = {
-        email,
-        password
+    const userRole = res.data.data.user.role_name;
+    console.log(`User role in the database is: ${userRole}`);
+
+    if (userRole === 'admin') {
+      navigate('/admin');
+    } else if (userRole === 'teacher') {
+      navigate('/user');
+    } else {
+      navigate('/user');
     }
-      const res = await http.post("/login", body)
-      localStorage.setItem('user', JSON.stringify(res.data.data.user))
-      localStorage.setItem('token', res.data.data.token)
-
-      if (res.data.data.user.role_name === 'admin') {
-        navigate('/admin');
-      } else if (res.data.data.user.role_name === 'teacher') {
-        navigate('/');
-      } else {
-        navigate('/');
-      }
-    } catch(e) {
-      if (e.response.data.errors){
-        setErrors({
-          email: e.response.data.errors.email,
-          password: e.response.data.error.password
-        })
-      } else {
-        alert(e.response.data.message);
-      }
+  } catch(e) {
+    if (e.response.data.errors){
+      setErrors({
+        email: e.response.data.errors.email,
+        password: e.response.data.error.password
+      })
+    } else {
+      alert(e.response.data.message);
     }
   }
+}
+
 
   function toggleShowPassword() {
     setShowPassword(!showPassword);

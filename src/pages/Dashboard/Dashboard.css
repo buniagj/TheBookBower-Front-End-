@@ -1,3 +1,5 @@
+/* notifications styles */
+
 .notification-card {
   position: absolute;
   top: 50%;
@@ -51,3 +53,143 @@
   height: 50px;
   color: gray;
 }
+
+/* Settings Styles */
+.light-theme .settings-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  width: 100vw;
+}
+
+.light-theme .settings-card {
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: -30px 0 0 0;
+  padding: 20px;
+  max-width: 1000px;
+  width: 100%;
+}
+
+.light-theme .settings-card h1 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.light-theme .settings-card h2 {
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.light-theme .settings-card div {
+  margin-bottom: 10px;
+}
+
+.light-theme .settings-card label {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.light-theme .settings-card select,
+.light-theme .settings-card input[type='range'] {
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 10px;
+  width: 80%;
+}
+
+.light-theme .settings-card input[type='range'] {
+  width: 100%;
+  margin-right: 0.5rem;
+}
+
+.light-theme .settings-card span {
+  display: inline-block;
+  margin-left: 10px;
+}
+
+.light-theme .settings-card input[type='checkbox'] {
+  margin-right: 10px;
+}
+
+.light-theme .settings-card input[type='password'] {
+  padding: 10px;
+  font-size: 16px;
+  width: 65%;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  margin-left: 0.5rem;
+}
+
+.light-theme .columns-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.light-theme .column {
+  flex-basis: 48%;
+}
+
+.light-theme .checkbox-container {
+  display: flex;
+  align-items: center;
+}
+
+.light-theme .checkbox-container label {
+  margin-left: 8px;
+}
+
+.light-theme .settings-card input[type="checkbox"] {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 0.5rem;
+}
+
+.custom-checkbox:checked {
+  background-color: purple;
+}
+
+.light-theme .settings-card input[type="checkbox"]:checked {
+  background-color: purple !important;
+  color: white;
+}
+
+
+.light-theme .settings-card input[type="checkbox"]:checked {
+  background-color: purple !important;
+}
+
+.light-theme .toggle-btn{
+  background-color: rgb(163, 115, 207);
+  color: purple;
+  margin-left: 10px !important;
+}
+
+.light-theme .toggle-btn:hover {
+  text-decoration: none;
+}
+
+
+
+.light-theme .settings-save-btn {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: auto;
+  margin-right: 20px;
+}
+
+@media screen and (max-width: 768px) {
+  .light-theme .column {
+    flex-basis: 100%;
+  }
+}
+
+
+

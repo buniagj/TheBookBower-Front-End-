@@ -24,22 +24,22 @@ export default function BookForm({ book, onSubmit, onCancel }) {
     };
   
     return (
-      <form onSubmit={handleSubmit}>
-        <h2>Edit Book</h2>
+      <form className="bf-form-container" onSubmit={handleSubmit}>
+        <h2 className="bf-h2">Edit Book</h2>
         <div>
-          <label>Title:</label>
-          <input type="text" name="title" value={formData.title} onChange={handleChange} />
+          <label className="bf-title">Title:</label>
+          <input className="bf-input" type="text" name="title" value={formData.title} onChange={handleChange} />
         </div>
         <div>
-          <label>Author:</label>
+          <label className="bf-title">Author:</label>
           <input type="text" name="author" value={formData.author} onChange={handleChange} />
         </div>
         <div>
-          <label>Publisher:</label>
+          <label className="bf-title">Publisher:</label>
           <input type="text" name="publisher" value={formData.publisher} onChange={handleChange} />
         </div>
         <div>
-          <label>Status:</label>
+          <label className="bf-title">Status:</label>
           <select name="status" value={formData.status} onChange={handleChange}>
             <option value="borrowed">Borrowed</option>
             <option value="returned">Returned</option>
@@ -47,7 +47,7 @@ export default function BookForm({ book, onSubmit, onCancel }) {
           </select>
         </div>
         <div>
-          <label>Borrowed Date:</label>
+          <label className="bf-title">Borrowed Date:</label>
           <input type="date" name="borrowedDate" value={formData.borrowedDate} onChange={handleChange} />
         </div>
         <div>

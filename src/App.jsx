@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ChakraProvider } from "@chakra-ui/react";
+import customTheme from "./components/Theme";
 import AppRoutes from "./Routes";
 import "./App.css";
 
 const App = ({ notificationCount }) => {
   const [user, setUser] = useState(null);
+  const [theme, setTheme] = useState("light"); // renamed state variable
 
   useEffect(() => {
     const loggedInUser = localStorage.getItem("user");
@@ -13,17 +16,26 @@ const App = ({ notificationCount }) => {
     }
   }, []);
 
-  const handleLogout = () => {
-    setUser(null);
-    localStorage.removeItem("user");
+  useEffect(() => {
+    const preferredTheme = localStorage.getItem("preferredTheme");
+    if (preferredTheme) {
+      setTheme(preferredTheme);
+    }
+  }, []);
+
+  const handleThemeChange = (newTheme) => {
+    setTheme(newTheme);
+    localStorage.setItem("preferredTheme", newTheme);
   };
 
   return (
-    <Router>
-      <div className="App">
-        <AppRoutes user={user} handleLogout={handleLogout} notificationCount={notificationCount} />
-      </div>
-    </Router>
+    <ChakraProvider theme={customTheme[theme]}> 
+      <Router>
+        <div>
+          <AppRoutes user={user} handleLogout={() => setUser(null)} notificationCount={notificationCount} />
+        </div>
+      </Router>
+    </ChakraProvider>
   );
 };
 

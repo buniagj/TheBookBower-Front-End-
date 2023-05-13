@@ -40,7 +40,7 @@ function ForgotPassword() {
             <div className="col-md-12 col-lg-10">
               <div className="wrap d-md-flex">
                 <div className="img"></div>
-                <div className="login-wrap p-4 p-md-5">
+                <div className="forgot-password-wrap p-4 p-md-5">
                   <div className="d-flex">
                     <div className="w-100">
                       <h3 className="mb-4">Forgot your password?</h3>

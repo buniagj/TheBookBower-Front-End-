@@ -159,17 +159,17 @@
   cursor: pointer;
 }
 
-.ml-auto {
+.login .ml-auto {
   margin-left: auto !important;
 
 }
-.ml-auto a {
+.login .ml-auto a {
   color: gray;
   text-decoration: none;
-  font-size: 14px;;
+  font-size: 14px;
 }
 
-.ml-auto a:hover {
+.login .ml-auto a:hover {
   color: #5b4577;
 }
 

@@ -28,7 +28,7 @@ import PrivacyPolicy from './pages/Auth/PrivacyPolicy';
 import TermsOfUse from './pages/Auth/TermsOfUse';
 import EditProfile from './pages/Dashboard/UserDashboard/EditProfile';
 
-const AppRoutes = ({ user , admin}) => {
+const AppRoutes = ({ user, admin, notificationCount }) => {
   const isAdmin = user?.role === "admin";
 
   return (
@@ -54,7 +54,7 @@ const AppRoutes = ({ user , admin}) => {
         <Route exact path="/booktable" element={<BookTable />} />
         <Route exact path="/bookform" element={<BookForm />} />
         <Route exact path="/managebooks" element={<ManageBooks />} />
-        <Route exact path="/notifications" element={<Notifications />} />
+        <Route exact path="/notifications" element={<Notifications notificationCount={notificationCount} />} />
         <Route exact path="/settings" element={<Settings />} />
         <Route exact path="/privacy" element={<PrivacyPolicy />} />
         <Route exact path="/terms" element={<TermsOfUse />} />

@@ -74,7 +74,7 @@ function SearchBar() {
         <input
           className='s-bar'
           type="text"
-          placeholder="Find your next adventure: Search for books..."
+          placeholder="Find your next adventure here!"
           value={searchTerm}
           onChange={handleSearchInputChange}
         />

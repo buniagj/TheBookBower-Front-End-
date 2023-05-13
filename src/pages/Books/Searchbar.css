@@ -38,6 +38,8 @@ li {
   display: flex;
   align-items: center;
   margin: 20px 0;
+  width : auto;
+  overflow-x: scroll;
 }
 
 .category-button {

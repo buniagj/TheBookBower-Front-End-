@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './BookListings.css';
+import http from "../../lib/https"
 
 const MAX_PAGE_BUTTONS = 5; // Maximum number of page buttons to display
 
@@ -9,12 +10,30 @@ function BookListings() {
   const [currentResults, setCurrentResults] = useState([]);
   const [resultsPerPage, setResultsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
+  const [meta, setMeta] = useState({});
 
-  useEffect(() => {
-    axios.get('/api/books')
-      .then(response => setBooks(response.data))
-      .catch(error => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   axios.get('/api/books')
+  //     .then(response => setBooks(response.data))
+  //     .catch(error => console.log(error));
+  // }, []);
+
+  async function getBooks(page = 1) {
+    const url = `/books?page=${page}`
+    const res = await http.get(url, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("token")}`
+      }
+    })
+    console.log(res.data.data)
+    console.log(res.data.meta)
+    setBooks(res.data.data)
+    setMeta(res.data.meta)
+  }
+  useEffect(() =>{
+    getBooks()
+    return
+  }, []) 
 
   useEffect(() => {
     const startIndex = (currentPage - 1) * resultsPerPage;

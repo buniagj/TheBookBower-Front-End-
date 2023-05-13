@@ -41,11 +41,18 @@
 }
 
 .category-page-title {
-color: #fff;
-font-size: 30px;
-font-family: 'Pacifico', cursive;
-text-align: center;
-background-color: transparent;
-margin-bottom: 40px;
-text-transform: capitalize;
+    color: #fff;
+    font-size: 30px;
+    font-family: 'Pacifico', cursive;
+    text-align: center;
+    background-color: transparent;
+    margin-bottom: 40px;
+    text-transform: capitalize;
+}
+
+@media (max-width: 767.98px) {
+.hero-section .breadcrumb {
+    padding: 0px !important; 
+    background-image: none; 
+    height: 160px ;}
 }

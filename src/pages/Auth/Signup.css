@@ -230,17 +230,17 @@
   padding-left: 2rem !important;
 }
 
-.ml-auto {
+.signup .ml-auto {
   margin-left: auto !important;
-
 }
-.ml-auto a {
+
+.signup .ml-auto a {
   color: gray;
   text-decoration: none;
   font-size: 14px;;
 }
 
-.ml-auto a:hover {
+.signup .ml-auto a:hover {
   color: #5b4577;
 }
 

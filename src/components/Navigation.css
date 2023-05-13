@@ -34,6 +34,9 @@ Feel free to add your design. */
     color: #8517a0;
 }
 
+.ml-auto a {
+    margin-left: auto !important;
+}
 
 
 /* fix for the content being hidden behind the navbar */
@@ -43,6 +46,6 @@ body {
 
 @media only screen and (max-width: 767px) {
     body {
-        padding-top: 56px;
+        margin-top: 56px;
     }
 }

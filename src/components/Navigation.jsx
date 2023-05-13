@@ -84,7 +84,7 @@ function Navigation() {
         </Navbar.Collapse>
       </Container>
       <Modal show={showLogoutModal} onHide={() => setShowLogoutModal(false)}>
-        <Modal.Header closeButton>
+        <Modal.Header closeButton className="close">
           <Modal.Title>Logout</Modal.Title>
         </Modal.Header>
         <Modal.Body>Are you sure you want to logout?</Modal.Body>

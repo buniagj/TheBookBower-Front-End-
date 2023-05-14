@@ -1,21 +1,22 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import { Link } from 'react-router-dom';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import Sort from './Sort';
 import FilterUsers from './FilterUsers';
 import Pagination from './Pagination';
 import EditUsers from './EditUsers';
-import AddUsers from './AddUsers';
+import AddUserForm from './AddUsers';
 import DeleteUsers from './DeleteUsers';
 import ExportToExcel from './ExportToExcel';
-import http from '../../../lib/https'
+import http from '../../../lib/https';
 import { useParams, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 
 const Table = styled.table`
   border-collapse: collapse;
-  width: 100%;
-  margin: 2rem;
+  width: 90%;
+  margin-left: 5rem;
+  margin-right: 5rem;
 `;
 
 const Th = styled.th`
@@ -27,7 +28,7 @@ const Th = styled.th`
 
 const Td = styled.td`
   border: 1px solid #ddd;
-  padding: 8px;
+  padding: 5px;
 `;
 
 const ActionsTd = styled(Td)`
@@ -53,14 +54,13 @@ const Icon = styled.span`
   display: inline-block;
   margin-right: 5px;
 `;
-
 export default function UserList() {
   const { id } = useParams();
   const [users, setUsers] = useState([]);
   const [sortType, setSortType] = useState('asc');
   const [searchTerm, setSearchTerm] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
-  const [usersPerPage] = useState(5);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [usersPerPage] = useState(10);
   const [editing, setEditing] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [showAddUserForm, setShowAddUserForm] = useState(false);
@@ -85,6 +85,7 @@ export default function UserList() {
     return
   }, [])
 
+
   const sortUsers = (type) => {
     setSortType(type);
   };
@@ -93,23 +94,31 @@ export default function UserList() {
     setSearchTerm(event.target.value);
   };
 
-  const handlePagination = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
+  const filteredUsers = users
+    .filter(user => {
+      return user.name.toLowerCase().includes(searchTerm.toLowerCase());
+    });
 
-  const indexOfLastUser = currentPage * usersPerPage;
+  const totalPages = Math.ceil(filteredUsers.length / usersPerPage);
+
+  const indexOfLastUser = (currentPage + 1) * usersPerPage;
   const indexOfFirstUser = indexOfLastUser - usersPerPage;
-  const currentUsers = users.slice(indexOfFirstUser, indexOfLastUser);
+  const currentUsers = filteredUsers.slice(indexOfFirstUser, indexOfLastUser);
 
-  const filteredUsers = currentUsers.filter(user =>
-    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    user.email.toLowerCase().includes(searchTerm.toLowerCase())
-  );
-
-  const sortedUsers = filteredUsers.sort((a, b) => {
+  const paginatedUsers = currentUsers.sort((a, b) => {
     const isReversed = (sortType === 'asc') ? 1 : -1;
     return isReversed * a.name.localeCompare(b.name);
   });
+
+  const handleEdit = (user) => {
+    setEditing(true);
+    setCurrentUser(user);
+  }
+
+  const handleDelete = (user) => {
+    setCurrentUser(user);
+    setShowDeleteUserForm(true);
+  }
 
   return (
     <>
@@ -129,21 +138,39 @@ export default function UserList() {
       {showDeleteUserForm && (
         <DeleteUsers
           currentUser={currentUser}
-          setShowDeleteUserForm={setShowDeleteUserForm}
+          setShow_DeleteUserForm={setShowDeleteUserForm}
           getUsers={getUsers}
         />
       )}
-      <h1>User List</h1>
       <div>
-        <FilterUsers handleSearch={handleSearch} />
-        <Button onClick={() => setShowAddUserForm(true)}>Add User</Button>
-        <ExportToExcel users={users} />
+        <h1>User List</h1>
+        <div className="flex items-center">
+          <input
+            type="text"
+            placeholder="Search users..."
+            className="border rounded-md px-2 py-1 mr-2"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <Button
+            className="btn btn-primary" 
+            onClick={() => setShowAddUserForm(true)}
+          >
+            Add User
+          </Button>
+          <Button
+            className="btn btn-primary"
+            onClick={() => sortUsers(sortType === 'asc' ? 'desc' : 'asc')}
+          >
+            Sort {sortType === 'asc' ? 'Z-A' : 'A-Z'}
+          </Button>
+        </div>
       </div>
-      <Table>
+      <Table >
         <thead>
           <tr>
-            <Th>Name<Sort sortUsers={sortUsers} sortType={sortType} /></Th>
-            <Th>Role</Th>
+             <Th>Name</Th>
+             <Th>Role</Th>
             <Th>Email</Th>
             <Th>Phone Number</Th>
             <Th>Address</Th>
@@ -151,36 +178,33 @@ export default function UserList() {
           </tr>
         </thead>
         <tbody>
-          {sortedUsers.map(user => (
+          {paginatedUsers.map((user) => (
             <tr key={user.id}>
-              <Td>{user.name}</Td>
-              <Td>{user.role_name}</Td>
-              <Td>{user.email}</Td>
+              <Td >{user.name}</Td>
+              <Td >{user.role_name}</Td>
+              <Td >{user.email}</Td>
               <Td>{user.phone_number}</Td>
               <Td>{user.address}</Td>
-              <ActionsTd>
-                <Button onClick={() => {
-                  setCurrentUser(user)
-                  setShowEditUserForm(true)
-                }}>
-                  <Icon><AiOutlineEdit /></Icon>
-                </Button>
-                <Button onClick={() => {
-                  setCurrentUser(user)
-                  setShowDeleteUserForm(true)
-                }}>
-                  <Icon><AiOutlineDelete /></Icon>
-                </Button>
+               <ActionsTd>
+                <Link to={`/users/${user.id}`}>
+                  <Icon>
+                    <AiOutlineEdit />
+                  </Icon>
+                  </Link>
+                   <Link to={`/users/${user.id}`}>
+                <Icon onClick={() => handleDelete(user)}>
+                  <AiOutlineDelete />
+                    </Icon>
+                    </Link>
               </ActionsTd>
             </tr>
           ))}
         </tbody>
       </Table>
       <Pagination
-        usersPerPage={usersPerPage}
-        totalUsers={users.length}
-        handlePagination={handlePagination}
+        totalPages={totalPages}
         currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
       />
     </>
   );

@@ -3,6 +3,8 @@ import axios from 'axios';
 import './BookListings.css';
 import http from "../../lib/https"
 import { format } from "date-fns";
+import { Row, Col } from 'react-bootstrap';
+import Pagination from '../Dashboard/AdminDashboard/Pagination'
 
 const MAX_PAGE_BUTTONS = 5; // Maximum number of page buttons to display
 
@@ -92,21 +94,17 @@ function BookListings() {
           </div>
         ))}
       </div>
-      {/* <div>
-        Total Results: {books.length}
-        <br />
-        Results Per Page:
-        <input
-          type="number"
-          value={resultsPerPage}
-          onChange={(e) => setResultsPerPage(parseInt(e.target.value))}
-        />
-      </div>
-      <div>
-        Current Page: {currentPage}
-        <br />
-        <div className="page-buttons">{pageButtons}</div>
-      </div> */}
+      <Row>
+        <Col>
+          {meta.links && (
+            <Pagination
+              links={meta.links}
+              active={meta.current_page}
+              getUsers={getBooks}
+            />
+          )}
+        </Col>
+      </Row>
     </div>
   );
 }

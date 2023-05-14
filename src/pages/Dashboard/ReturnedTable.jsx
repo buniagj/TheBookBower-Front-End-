@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import { Container, Row, Col, Table, DropdownButton, Dropdown } from "react-bootstrap";
-import Sort from "./AdminDashboard/Sort";
+import { sortByName, sortByLastName, sortByEmail } from "./AdminDashboard/Sort";
 import Search from "./AdminDashboard/Search";
 import ExportToExcel from "./AdminDashboard/ExportToExcel";
 import Pagination from "./AdminDashboard/Pagination";
@@ -22,12 +22,19 @@ const ReturnedTable = ({ data = [], isAdmin }) => {
     setSearchTerm(event.target.value);
   };
 
-  const handleSort = (columnName) => {
-    if (sortColumn === columnName) {
-      setSortDirection((dir) => (dir === "asc" ? "desc" : "asc"));
-    } else {
-      setSortColumn(columnName);
-      setSortDirection("asc");
+  const handleSort = (type) => {
+    switch (type) {
+      case "name":
+        setUsers(users.sort(sortByName));
+        break;
+      case "last_name":
+        setUsers(users.sort(sortByLastName));
+        break;
+      case "email":
+        setUsers(users.sort(sortByEmail));
+        break;
+      default:
+        setUsers(users);
     }
   };
 

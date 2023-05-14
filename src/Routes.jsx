@@ -27,6 +27,7 @@ import Settings from './pages/Dashboard/Settings';
 import PrivacyPolicy from './pages/Auth/PrivacyPolicy';
 import TermsOfUse from './pages/Auth/TermsOfUse';
 import EditProfile from './pages/Dashboard/UserDashboard/EditProfile';
+import AddUsers from './pages/Dashboard/AdminDashboard/AddUsers';
 
 const AppRoutes = ({ user, admin, notificationCount }) => {
   const isAdmin = user?.role === "admin";
@@ -59,6 +60,7 @@ const AppRoutes = ({ user, admin, notificationCount }) => {
         <Route exact path="/privacy" element={<PrivacyPolicy />} />
         <Route exact path="/terms" element={<TermsOfUse />} />
         <Route exact path="/edit-profile" element={<EditProfile />} />
+        <Route exact path="/adduser" element={<AddUsers />} />
       </Routes>
       <Footer />
     </AppErrorBoundary>

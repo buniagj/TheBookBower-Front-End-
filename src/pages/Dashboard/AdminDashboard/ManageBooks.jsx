@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sort from './Sort';
+import { sortByTitle, sortByAuthor, sortByStatus, sortByAvailableStock } from './Sort';
 import FilterBooks from './FilterBook';
 import Search from './Search';
 import ChangeStatus from './ChangeStatus';
@@ -12,6 +12,7 @@ import AddBook from './AddBook';
 import Pagination from './Pagination';
 import http from '../../../lib/https'
 import { useParams, useNavigate } from "react-router-dom";
+import { Row, Col } from 'react-bootstrap';
 
 export default function ManageBook() {
   const [books, setBooks] = useState([]);
@@ -24,6 +25,7 @@ export default function ManageBook() {
   const [showAddBookForm, setShowAddBookForm] = useState(false);
   const [showEditBookForm, setShowEditBookForm] = useState(false);
   const [showDeleteBookForm, setShowDeleteBookForm] = useState(false);
+  const [meta, setMeta] = useState({});
 
   async function getBooks(page = 1) {
     const url = `/books?page=${page}`
@@ -32,9 +34,9 @@ export default function ManageBook() {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
-    console.log(res.data.data)
+    // console.log(res.data.data)
     setBooks(res.data.data)
-    // setMeta(res.data.meta)
+    setMeta(res.data.meta)
   }
   useEffect(() =>{
     getBooks()
@@ -52,8 +54,26 @@ export default function ManageBook() {
   // }, []);
 
   const sortBooks = (type) => {
-    setSortType(type);
-  };
+  setSortType(type);
+
+  switch (type) {
+    case "title":
+      setBooks([...books.sort(sortByTitle)]);
+      break;
+    case "author":
+      setBooks([...books.sort(sortByAuthor)]);
+      break;
+    case "status":
+      setBooks([...books.sort(sortByStatus)]);
+      break;
+    case "availableStock":
+      setBooks([...books.sort(sortByAvailableStock)]);
+      break;
+    default:
+      break;
+  }
+};
+
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -110,11 +130,9 @@ export default function ManageBook() {
       <table>
         <thead>
           <tr>
-            <th>Title <Sort sortType={sortType} onSort={sortBooks} /></th>
+            <th>Title</th>
             <th>Author</th>
-            <th>Price</th>
             <th>Status</th>
-            <th>Available Stock</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -148,11 +166,17 @@ return (
 {/* <ExportToExcel books={books} /> */}
 </div>
 {renderBookTable()}
-<Pagination
-     booksPerPage={booksPerPage}
-     totalBooks={books.length}
-     paginate={handlePagination}
-   />
+<Row>
+  <Col>
+    {meta.links && (
+      <Pagination
+        links={meta.links}
+        active={meta.current_page}
+        getUsers={getBooks}
+      />
+    )}
+  </Col>
+</Row>
 {showAddBookForm && <AddBook closeAddBookForm={closeAddBookForm} />}
 {showEditBookForm && (
 <EditBook

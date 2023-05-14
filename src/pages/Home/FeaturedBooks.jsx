@@ -256,7 +256,7 @@ function FeaturedBooks() {
               <Button variant="secondary" onClick={handleClose}>
                 Close
               </Button>
-              <Link to='/borrow-form'>
+              <Link to='/borrowform'>
                 <Button variant="primary" onClick={handleClose}>
                   Borrow
               </Button>

@@ -230,6 +230,12 @@
   padding-left: 2rem !important;
 }
 
+.signup a {
+  color: var(--bs-link-color) !important;
+  text-decoration: underline !important;
+  font-size: 16px !important;
+}
+
 .signup .ml-auto {
   margin-left: auto !important;
 }
@@ -237,7 +243,7 @@
 .signup .ml-auto a {
   color: gray;
   text-decoration: none;
-  font-size: 14px;;
+  font-size: 16px;;
 }
 
 .signup .ml-auto a:hover {
@@ -255,7 +261,7 @@
   position: relative;
   padding-left: 30px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   -webkit-user-select: none;
   -moz-user-select: none;

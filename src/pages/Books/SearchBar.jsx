@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import Pagination from '../Dashboard/AdminDashboard/Pagination';
-import './SearchBar.css';
+import './Searchbar.css';
 
 function SearchBar() {
   const [searchTerm, setSearchTerm] = useState('');

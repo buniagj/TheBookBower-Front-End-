@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import './BookListings.css';
 import http from "../../lib/https"
+import { format } from "date-fns";
+import { Row, Col } from 'react-bootstrap';
+import Pagination from '../Dashboard/AdminDashboard/Pagination'
 
 const MAX_PAGE_BUTTONS = 5; // Maximum number of page buttons to display
 
@@ -12,12 +15,6 @@ function BookListings() {
   const [currentPage, setCurrentPage] = useState(1);
   const [meta, setMeta] = useState({});
 
-  // useEffect(() => {
-  //   axios.get('/api/books')
-  //     .then(response => setBooks(response.data))
-  //     .catch(error => console.log(error));
-  // }, []);
-
   async function getBooks(page = 1) {
     const url = `/books?page=${page}`
     const res = await http.get(url, {
@@ -25,11 +22,10 @@ function BookListings() {
         Authorization: `Bearer ${localStorage.getItem("token")}`
       }
     })
-    console.log(res.data.data)
-    console.log(res.data.meta)
     setBooks(res.data.data)
     setMeta(res.data.meta)
   }
+
   useEffect(() =>{
     getBooks()
     return
@@ -83,29 +79,25 @@ function BookListings() {
     <div>
       <h2>Book Listings</h2>
       <div className="book-grid">
-        {currentResults.map((book) => (
+        {books.map((book) => (
           <div key={book.id} className="book-item">
-            <h3>{book.title}</h3>
-            <p>Author: {book.author}</p>
-            <p>Year: {book.year}</p>
+            <h3>Title: {book.attributes.title}</h3>
+            <p>Author: {book.attributes.author}</p>
+            <p>Year: <span>{format(new Date(book.attributes.published), "MMMM dd, yyyy")}</span></p>
           </div>
         ))}
       </div>
-      <div>
-        Total Results: {books.length}
-        <br />
-        Results Per Page:
-        <input
-          type="number"
-          value={resultsPerPage}
-          onChange={(e) => setResultsPerPage(parseInt(e.target.value))}
-        />
-      </div>
-      <div>
-        Current Page: {currentPage}
-        <br />
-        <div className="page-buttons">{pageButtons}</div>
-      </div>
+      <Row>
+        <Col>
+          {meta.links && (
+            <Pagination
+              links={meta.links}
+              active={meta.current_page}
+              getUsers={getBooks}
+            />
+          )}
+        </Col>
+      </Row>
     </div>
   );
 }

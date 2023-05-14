@@ -76,7 +76,7 @@ nav ul li a .sr-only {
   font-family: 'Pacifico', cursive;
   font-size: 1.3rem !important;
   color: #632872 !important;
-  margin-right: 10rem;
+  margin-right: 5rem;
 }
 
 @media screen and (max-width: 768px) {

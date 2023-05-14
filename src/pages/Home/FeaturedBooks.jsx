@@ -17,12 +17,12 @@ import HarryPotter7 from '../../assets/HP7.png';
 function FeaturedBooks() {
   const [books, setBooks] = useState([]);
 
-  useEffect(() => {
-    fetch('https://your-api-endpoint.com/books/featured?month=may')
-      .then(response => response.json())
-      .then(data => setBooks(data))
-      .catch(error => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   fetch('https://your-api-endpoint.com/books/featured?month=may')
+  //     .then(response => response.json())
+  //     .then(data => setBooks(data))
+  //     .catch(error => console.log(error));
+  // }, []);
 
   const [show, setShow] = useState(false);
 

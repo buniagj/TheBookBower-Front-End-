@@ -2,6 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { Container, Row, Col, Form } from 'react-bootstrap';
 import UserCard from './UserCard';
 import axios from 'axios';
+import styled from 'styled-components';
+
+const CenteredForm = styled(Form)`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin: 20px auto;
+  color: purple;
+`;
 
 const FilterUsers = () => {
   const [users, setUsers] = useState([]);
@@ -26,13 +35,11 @@ const FilterUsers = () => {
   };
 
   return (
-    <Container className="my-5">
+    <Container>
       <Row>
-        <Col lg={8}>
-          <h2>Filter Users</h2>
-          <Form>
+        <Col>
+           <CenteredForm>
             <Form.Group controlId="formSearchQuery">
-              <Form.Label>Search Users</Form.Label>
               <Form.Control
                 type="text"
                 placeholder="Enter a name to search"
@@ -40,7 +47,7 @@ const FilterUsers = () => {
                 onChange={handleSearchQueryChange}
               />
             </Form.Group>
-          </Form>
+          </CenteredForm>
           <Row>
             {filteredUsers.map(user => (
               <Col md={4} key={user.id}>

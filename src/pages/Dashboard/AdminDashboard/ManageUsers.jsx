@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
 import Sort from './Sort';
 import FilterUsers from './FilterUsers';
 import Pagination from './Pagination';
@@ -9,6 +10,49 @@ import DeleteUsers from './DeleteUsers';
 import ExportToExcel from './ExportToExcel';
 import http from '../../../lib/https'
 import { useParams, useNavigate } from "react-router-dom";
+import styled from 'styled-components';
+
+const Table = styled.table`
+  border-collapse: collapse;
+  width: 100%;
+  margin: 2rem;
+`;
+
+const Th = styled.th`
+  background-color: #ddd;
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+`;
+
+const Td = styled.td`
+  border: 1px solid #ddd;
+  padding: 8px;
+`;
+
+const ActionsTd = styled(Td)`
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+`;
+
+const Button = styled.button`
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 1rem 2rem;
+  cursor: pointer;
+`;
+
+const Icon = styled.span`
+  display: inline-block;
+  margin-right: 5px;
+`;
 
 export default function UserList() {
   const { id } = useParams();
@@ -34,22 +78,12 @@ export default function UserList() {
     console.log(res.data.meta)
     setUsers(res.data.data)
     setMeta(res.data.meta)
-  } 
+  }
 
-  useEffect(() =>{
+  useEffect(() => {
     getUsers()
     return
   }, [])
-
-  // useEffect(() => {
-  //   axios.get('api/users')
-  //     .then(response => {
-  //       setUsers(response.data);
-  //     })
-  //     .catch(error => {
-  //       console.log(error);
-  //     });
-  // }, []);
 
   const sortUsers = (type) => {
     setSortType(type);
@@ -77,89 +111,77 @@ export default function UserList() {
     return isReversed * a.name.localeCompare(b.name);
   });
 
-  const editUser = (user) => {
-    setEditing(true);
-    setCurrentUser(user);
-    setShowEditUserForm(true);
-  };
-
-  const addUser = () => {
-    setShowAddUserForm(true);
-  };
-
-  const deleteUser = (user) => {
-    setCurrentUser(user);
-    setShowDeleteUserForm(true);
-  };
-
-  const closeAddUserForm = () => {
-    setShowAddUserForm(false);
-  };
-
-  const closeEditUserForm = () => {
-    setEditing(false);
-    setShowEditUserForm(false);
-  };
-
-  const closeDeleteUserForm = () => {
-    setShowDeleteUserForm(false);
-  };
-
-  const renderUserTable = () => {
-    return (
-      <table>
+  return (
+    <>
+      {showAddUserForm && (
+        <AddUsers
+          setShowAddUserForm={setShowAddUserForm}
+          getUsers={getUsers}
+        />
+      )}
+      {showEditUserForm && (
+        <EditUsers
+          currentUser={currentUser}
+          setShowEditUserForm={setShowEditUserForm}
+          getUsers={getUsers}
+        />
+      )}
+      {showDeleteUserForm && (
+        <DeleteUsers
+          currentUser={currentUser}
+          setShowDeleteUserForm={setShowDeleteUserForm}
+          getUsers={getUsers}
+        />
+      )}
+      <h1>User List</h1>
+      <div>
+        <FilterUsers handleSearch={handleSearch} />
+        <Button onClick={() => setShowAddUserForm(true)}>Add User</Button>
+        <ExportToExcel users={users} />
+      </div>
+      <Table>
         <thead>
           <tr>
-            {/* <th>Name <Sort sortType={sortType} onSort={sortUsers} /></th> */}
-            <th>Name</th>
-            <th>Email</th>
-            <th>Phone Number</th>
-            <th>Role</th>
-            <th>Actions</th>
+            <Th>Name<Sort sortUsers={sortUsers} sortType={sortType} /></Th>
+            <Th>Role</Th>
+            <Th>Email</Th>
+            <Th>Phone Number</Th>
+            <Th>Address</Th>
+            <Th>Actions</Th>
           </tr>
         </thead>
         <tbody>
-          {users.map(user => {
-            return (
+          {sortedUsers.map(user => (
             <tr key={user.id}>
-              <td>{user.name}</td>
-              <td>{user.email}</td>
-              <td>{user.phone_number}</td>
-              <td>{user.role_name}</td>
-              <td>
-                <button onClick={() => editUser(user)}>Edit</button>
-                <button onClick={() => deleteUser(user)}>Delete</button>
-              </td>
+              <Td>{user.name}</Td>
+              <Td>{user.role_name}</Td>
+              <Td>{user.email}</Td>
+              <Td>{user.phone_number}</Td>
+              <Td>{user.address}</Td>
+              <ActionsTd>
+                <Button onClick={() => {
+                  setCurrentUser(user)
+                  setShowEditUserForm(true)
+                }}>
+                  <Icon><AiOutlineEdit /></Icon>
+                </Button>
+                <Button onClick={() => {
+                  setCurrentUser(user)
+                  setShowDeleteUserForm(true)
+                }}>
+                  <Icon><AiOutlineDelete /></Icon>
+                </Button>
+              </ActionsTd>
             </tr>
-          )
-          })}
+          ))}
         </tbody>
-      </table>
-    );
-  };
-
-  return (
-    <div>
-      <h2>Users</h2>
-      {/* <FilterUsers searchTerm={searchTerm} onSearch={handleSearch} /> */}
-      <button onClick={addUser}>Add User</button>
-      {/* <ExportToExcel users={users} /> */}
-      <div>
-        {renderUserTable()}
-      </div>
-      <div>
-        {meta.links && (
-          <Pagination
-          links={meta.links}
-          active={meta.current_page}
-          getUsers={getUsers}
-          />
-        )}
-      </div>
-      {showAddUserForm && <AddUsers onClose={closeAddUserForm} />}
-      {showEditUserForm && <EditUsers user={currentUser} onClose={closeEditUserForm} />}
-      {editing && <EditUsers user={currentUser} onClose={closeEditUserForm} />}
-      {showDeleteUserForm && <DeleteUsers user={currentUser} onClose={closeDeleteUserForm} />}
-    </div>
+      </Table>
+      <Pagination
+        usersPerPage={usersPerPage}
+        totalUsers={users.length}
+        handlePagination={handlePagination}
+        currentPage={currentPage}
+      />
+    </>
   );
 }

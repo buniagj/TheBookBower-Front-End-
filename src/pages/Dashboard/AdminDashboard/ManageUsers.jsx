@@ -6,11 +6,10 @@ import EditUsers from './EditUsers';
 import AddUsers from './AddUsers'
 import { Row, Col } from 'react-bootstrap';
 import DeleteUsers from './DeleteUsers';
-import AddUserForm from './AddUsers';
-import { sortByName, sortByEmail } from "./Sort";
+import { sortByName, sortByLastName, sortByEmail } from "./Sort";
 import ExportToExcel from './ExportToExcel';
 import http from '../../../lib/https';
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import styled from 'styled-components';
 import Modal from 'react-modal';
 
@@ -101,7 +100,6 @@ export default function UserList() {
 
 
 
-
  const sortUsers = (type) => {
     let sortedUsers = [...users];
     let direction = "asc";
@@ -138,21 +136,6 @@ export default function UserList() {
     setSortType(type);
     setSortDirection(direction);
   };
-
-  const toggleModal = () => {
-  setModalIsOpen(!modalIsOpen);
-};
-
-  const addUser = (newUser) => {
-    setUsers([...users, newUser]);
-  };
-
-  const handleAddUser = () => {
-  setShowAddUserForm(true);
-  toggleModal();
-};
-
-
 
   const handleSearch = (event, page = 1) => {
     setSearchTerm(event.target.value);
@@ -219,9 +202,12 @@ export default function UserList() {
             value={searchTerm}
             onChange={handleSearch}
           />
-         <Button className="btn btn-primary" onClick={() => setModalIsOpen(true)}>Add User</Button>
-          <UserList users={users} />
-          <AddUserForm onAdd={handleAddUser} setModalIsOpen={setModalIsOpen} />
+          <Button
+            className="btn btn-primary" 
+            onClick={() => setShowAddUserForm(true)}
+          >
+            Add User
+          </Button>
           <Button
             className="btn btn-primary"
             onClick={() => sortUsers(sortType === 'asc' ? 'desc' : 'asc')}

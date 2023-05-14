@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Sort from './Sort';
+import { sortByTitle, sortByAuthor, sortByStatus, sortByAvailableStock } from './Sort';
 import FilterBooks from './FilterBook';
 import Search from './Search';
 import ChangeStatus from './ChangeStatus';
@@ -52,8 +52,26 @@ export default function ManageBook() {
   // }, []);
 
   const sortBooks = (type) => {
-    setSortType(type);
-  };
+  setSortType(type);
+
+  switch (type) {
+    case "title":
+      setBooks([...books.sort(sortByTitle)]);
+      break;
+    case "author":
+      setBooks([...books.sort(sortByAuthor)]);
+      break;
+    case "status":
+      setBooks([...books.sort(sortByStatus)]);
+      break;
+    case "availableStock":
+      setBooks([...books.sort(sortByAvailableStock)]);
+      break;
+    default:
+      break;
+  }
+};
+
 
   const handleSearchChange = (event) => {
     setSearchTerm(event.target.value);
@@ -111,10 +129,9 @@ export default function ManageBook() {
         <thead>
           <tr>
             <th>Title <Sort sortType={sortType} onSort={sortBooks} /></th>
-            <th>Author</th>
-            <th>Price</th>
-            <th>Status</th>
-            <th>Available Stock</th>
+            <th>Author <Sort sortType={sortType} onSort={sortBooks} /></th>
+            <th>Status <Sort sortType={sortType} onSort={sortBooks} /></th>
+            <th>Available Stock <Sort sortType={sortType} onSort={sortBooks} /></th>
             <th>Actions</th>
           </tr>
         </thead>

@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai';
-import Sort from './Sort';
-import FilterUsers from './FilterUsers';
 import Pagination from './Pagination';
 import EditUsers from './EditUsers';
-import AddUserForm from './AddUsers';
+import { Row, Col } from 'react-bootstrap';
 import DeleteUsers from './DeleteUsers';
+import { sortByName, sortByLastName, sortByEmail } from "./Sort";
 import ExportToExcel from './ExportToExcel';
 import http from '../../../lib/https';
 import { useParams, useNavigate } from "react-router-dom";
@@ -37,6 +36,16 @@ const ActionsTd = styled(Td)`
   align-items: center;
 `;
 
+const Input = styled.input`
+  border: 2px solid #5f1d91;
+  border-radius: 4px;
+  padding: 8px;
+  margin-left: 5rem;
+  margin-bottom: 1rem;
+  flex-grow: 1;
+  width: 30%;
+`;
+
 const Button = styled.button`
   background-color: #4CAF50;
   border: none;
@@ -46,14 +55,18 @@ const Button = styled.button`
   text-decoration: none;
   display: inline-block;
   font-size: 16px;
-  margin: 1rem 2rem;
+  float: right;
+  margin-right: 5rem;
   cursor: pointer;
+  text-decoration: none;
 `;
+
 
 const Icon = styled.span`
   display: inline-block;
   margin-right: 5px;
 `;
+
 export default function UserList() {
   const { id } = useParams();
   const [users, setUsers] = useState([]);
@@ -86,13 +99,48 @@ export default function UserList() {
   }, [])
 
 
-  const sortUsers = (type) => {
+ const sortUsers = (type) => {
+    let sortedUsers = [...users];
+    let direction = "asc";
+
+    if (sortType === type && sortDirection === "asc") {
+      direction = "desc";
+    }
+
+    switch (type) {
+      case "name":
+        sortedUsers.sort(sortByName);
+        break;
+      case "role":
+        sortedUsers.sort(sortByRole);
+        break;
+      case "email":
+        sortedUsers.sort(sortByEmail);
+        break;
+      case "phone_number":
+        sortedUsers.sort(sortByPhoneNumber);
+        break;
+      case "address":
+        sortedUsers.sort(sortByAddress);
+        break;
+      default:
+        break;
+    }
+
+    if (direction === "desc") {
+      sortedUsers.reverse();
+    }
+
+    setUsers(sortedUsers);
     setSortType(type);
+    setSortDirection(direction);
   };
 
-  const handleSearch = (event) => {
+  const handleSearch = (event, page = 1) => {
     setSearchTerm(event.target.value);
-  };
+    getUsers(event.target.value, page);
+};
+
 
   const filteredUsers = users
     .filter(user => {
@@ -144,8 +192,8 @@ export default function UserList() {
       )}
       <div>
         <h1>User List</h1>
-        <div className="flex items-center">
-          <input
+       <div className="flex items-center">
+          <Input
             type="text"
             placeholder="Search users..."
             className="border rounded-md px-2 py-1 mr-2"
@@ -165,15 +213,16 @@ export default function UserList() {
             Sort {sortType === 'asc' ? 'Z-A' : 'A-Z'}
           </Button>
         </div>
+
       </div>
       <Table >
         <thead>
           <tr>
-             <Th>Name</Th>
-             <Th>Role</Th>
-            <Th>Email</Th>
-            <Th>Phone Number</Th>
-            <Th>Address</Th>
+             <Th onClick={() => sortUsers("name")}>Name</Th>
+            <Th onClick={() => sortUsers("role")}>Role</Th>
+            <Th onClick={() => sortUsers("email")}>Email</Th>
+            <Th onClick={() => sortUsers("phone_number")}>Phone Number</Th>
+            <Th onClick={() => sortUsers("address")}>Address</Th>
             <Th>Actions</Th>
           </tr>
         </thead>
@@ -201,11 +250,17 @@ export default function UserList() {
           ))}
         </tbody>
       </Table>
-      <Pagination
-        totalPages={totalPages}
-        currentPage={currentPage}
-        setCurrentPage={setCurrentPage}
-      />
+     <Row>
+          <Col>
+            {meta.links && (
+              <Pagination
+                links={meta.links}
+                active={meta.current_page}
+                getUsers={getUsers}
+              />
+            )}
+          </Col>
+        </Row>
     </>
   );
 }

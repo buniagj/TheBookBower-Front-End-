@@ -1,40 +1,22 @@
-import React, { useState } from 'react';
-import ReactPaginate from 'react-paginate';
-import './Admin.css'
+import React from 'react'
+import { Pagination as BPagination } from "react-bootstrap"
 
-function Pagination({ data }) {
-  const [currentPage, setCurrentPage] = useState(0);
-
-  // handle page change
-  const handlePageChange = (page) => {
-    setCurrentPage(page.selected);
-  }
-
-  // items per page
-  const itemsPerPage = 10;
-
-  // get current page items
-  const currentPageItems = data.slice(currentPage * itemsPerPage, currentPage * itemsPerPage + itemsPerPage);
-
+const Pagination = ({links, active, getUsers}) => {
   return (
-    <div>
-      {currentPageItems.map(item => (
-        <div key={item}>{item}</div>
-      ))}
-      <ReactPaginate
-        previousLabel={'previous'}
-        nextLabel={'next'}
-        breakLabel={'...'}
-        breakClassName={'break-me'}
-        pageCount={Math.ceil(data.length / itemsPerPage)}
-        marginPagesDisplayed={2}
-        pageRangeDisplayed={10}
-        onPageChange={handlePageChange}
-        containerClassName={'pagination'}
-        activeClassName={'active'}
-      />
-    </div>
-  );
+    <>
+      <BPagination>
+        {links
+          .filter((_, index) => index !== 0 && index !== links.length - 1)
+          .map((link, index) => {
+            return (
+              <BPagination.Item key={index} active={parseInt(link.label) === active} onClick={() => getUsers(link.label)}>
+                <span dangerouslySetInnerHTML={{__html: link.label}}></span>
+              </BPagination.Item>
+            )
+          })}
+      </BPagination>
+    </>
+  )
 }
 
-export default Pagination;
+export default Pagination

@@ -159,14 +159,19 @@
   cursor: pointer;
 }
 
+.login a {
+  color: var(--bs-link-color) !important;
+  text-decoration: underline !important;
+}
+
 .login .ml-auto {
   margin-left: auto !important;
-
 }
+
 .login .ml-auto a {
   color: gray;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 16px;
 }
 
 .login .ml-auto a:hover {
@@ -184,7 +189,7 @@
   position: relative;
   padding-left: 30px;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 500;
   -webkit-user-select: none;
   -moz-user-select: none;

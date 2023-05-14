@@ -30,6 +30,7 @@
    background-color: #5b4577 !important;
    border-radius: 5px;
    text-decoration: none;
+   padding: 5px 10px;
 }
 
 .hero-section button:hover {

@@ -4,12 +4,12 @@ import Container from 'react-bootstrap/Container';
 import { faUser, faPhone, faLocationDot, faEnvelope, faUnlockKeyhole, faKey, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './Signup.css';
-import http from "../../lib/https" //Added
-import { useNavigate } from "react-router-dom"; //Added
+import http from "../../lib/https"
+import { useNavigate } from "react-router-dom";
 
 
 function Signup() {
-  const navigate = useNavigate(); //Added
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -21,92 +21,57 @@ function Signup() {
   const [address, setAddress] = useState('');
   const [showPassword, setShowPassword] = useState(false);
 
-//  async function handleSubmit(event) {
-//   event.preventDefault();
-//   try {
-//     const response = await fetch("/register", {
-//       method: 'POST',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       },
-//       body: JSON.stringify({ 
-//         name, 
-//         phone_number: phoneNumber,
-//         address,
-//         email, 
-//         password, 
-//         password_confirmation: passwordConfirmation,
-//         role_name: role,
-//         grade_level: gradeLevel,
-//         section
-//       })
-//     });
+  async function handleSubmit(e) {
+    e.preventDefault();
+    e.stopPropagation();
 
-//     if (!response.ok) {
-//       throw new Error('Registration failed. Please try again later.');
-//     }
-
-//     const data = await response.json();
-//     // Assuming your Laravel API sends a verification email
-//     alert('A verification email has been sent to your email address. Please check your inbox and follow the instructions to complete the registration process.');
-//     window.location.replace('/admin'); // Redirect the user to the login page after registration
-//   } catch (error) {
-//     console.error(error);
-//     // setError('Registration failed. Please try again later.');
-//   }
-// }
-
-async function handleSubmit(e) {
-  e.preventDefault();
-  e.stopPropagation();
-
-  if (
-    !name || !phoneNumber || !address || !email || !password || 
-    !passwordConfirmation || password !== passwordConfirmation || !role
+    if (
+      !name || !phoneNumber || !address || !email || !password || 
+      !passwordConfirmation || password !== passwordConfirmation || !role
     ) {
       return
     }
 
-try {
-  const body = {
-    name,
-    phone_number: phoneNumber,
-    address,
-    email,
-    password,
-    password_confirmation: passwordConfirmation,
-    role_name: role
-  }
-    const res = await http.post("/register", body)
-    localStorage.setItem('user', JSON.stringify(res.data.data.user))
-    localStorage.setItem('token', res.data.data.token)
-    if (res.data.data.user.role_name === 'admin') {
-      navigate('/admin');
-    } else if (res.data.data.user.role_name === 'teacher') {
-      navigate('/user');
-    } else {
-      navigate('/user');
+    try {
+      const body = {
+        name,
+        phone_number: phoneNumber,
+        address,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+        role_name: role
+      }
+      const res = await http.post("/register", body)
+      localStorage.setItem('user', JSON.stringify(res.data.data.user))
+      localStorage.setItem('token', res.data.data.token)
+      if (res.data.data.user.role_name === 'admin') {
+        navigate('/admin');
+      } else if (res.data.data.user.role_name === 'teacher') {
+        navigate('/user');
+      } else {
+        navigate('/user');
+      }
+    } catch(e) {
+      if (e.response.data.errors) {
+        setErrors({
+          name: e.response.data.errors.name ? e.response.data.errors.name : [],
+          phoneNumber: e.response.data.errors.phoneNumber ? e.response.data.errors.phoneNumber : [],
+          address: e.response.data.errors.address ? e.response.data.errors.address : [],
+          email: e.response.data.errors.email ? e.response.data.errors.email : [],
+          password: e.response.data.errors.password
+            ? e.response.data.errors.password
+            : [],
+            passwordConfirmation: e.response.data.errors.password_confirmation
+            ? e.response.data.errors.password_confirmation
+            : [],
+          role: e.response.data.role ? e.response.data.role : []
+        })
+      } else {
+        alert(e.response.data.message)
+      }
     }
-  } catch(e) {
-    if (e.response.data.errors) {
-      setErrors({
-        name: e.response.data.errors.name ? e.response.data.errors.name : [],
-        phoneNumber: e.response.data.errors.phoneNumber ? e.response.data.errors.phoneNumber : [],
-        address: e.response.data.errors.address ? e.response.data.errors.address : [],
-        email: e.response.data.errors.email ? e.response.data.errors.email : [],
-        password: e.response.data.errors.password
-          ? e.response.data.errors.password
-          : [],
-          passwordConfirmation: e.response.data.errors.password_confirmation
-          ? e.response.data.errors.password_confirmation
-          : [],
-        role: e.response.data.role ? e.response.data.role : []
-      })
-    } else {
-      alert(e.response.data.message)
-    }
   }
-}
 
   function toggleShowPassword() {
     setShowPassword(!showPassword);

@@ -24,7 +24,7 @@ Feel free to add your design. */
 .nav-link {
   color: #8517a0 !important;
   font-family: 'Poppins', sans-serif !important;
-  margin-right: 50px !important;
+  margin-right: 30px !important;
   text-decoration: none;
 }
 
@@ -34,7 +34,7 @@ Feel free to add your design. */
     color: #8517a0;
 }
 
-.ml-auto a {
+.ml-auto {
     margin-left: auto !important;
 }
 

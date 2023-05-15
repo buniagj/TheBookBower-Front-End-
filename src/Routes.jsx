@@ -43,7 +43,7 @@ const AppRoutes = ({ user, admin, notificationCount }) => {
         <Route exact path="/returnform" element={<ReturnForm />} />
         <Route exact path="/searchbar" element={<SearchBar />} />
         <Route exact path="/about" element={<About />} />
-        <Route exact path="/contactpage" element={<Contact />} />
+        <Route exact path="/contact" element={<Contact />} />
         <Route exact path="/login" element={<Login />} />
         <Route exact path="/signup" element={<Signup />} />
         <Route exact path="/user" element={<UserDashboard user={user} />} />

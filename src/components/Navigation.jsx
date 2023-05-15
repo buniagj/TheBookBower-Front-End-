@@ -40,6 +40,9 @@ function Navigation() {
             <Nav.Link as={Link} to="/bookspage">
               Books
             </Nav.Link>
+            <Nav.Link as={Link} to="/contact">
+              Contact Us
+            </Nav.Link>
             {isLoggedIn && !isAdmin ? (
               <>
                 <Nav.Link as={Link} to="/searchbar">

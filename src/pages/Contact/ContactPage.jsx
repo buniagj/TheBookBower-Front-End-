@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button } from 'react-bootstrap';
+import './Contact.css';
 
 const ContactPage = () => {
   const [reason, setReason] = useState('');
@@ -77,7 +78,7 @@ const ContactPage = () => {
               <Form.Label>Message</Form.Label>
               <Form.Control as="textarea" rows={4} placeholder="Enter your message" value={message} onChange={handleMessageChange} />
             </Form.Group>
-            <Button variant="primary" type="submit">
+            <Button className="contact-btn" variant="primary" type="submit">
               Submit
             </Button>
           </Form>
